@@ -1,0 +1,61 @@
+.promo-container {
+  display: flex;
+  gap: 30px;
+}
+
+.promo-card {
+  flex: 1;
+  background-color: #f4f7f6;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+  min-height: 250px;
+}
+
+.promo-card:hover {
+  transform: translateY(-5px);
+}
+
+.promo-content {
+  flex: 1;
+  z-index: 1;
+}
+
+.promo-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 32px;
+  color: #7bbbb2;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.promo-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.2;
+}
+
+.promo-image {
+  flex: 0 0 150px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.promo-image img {
+  max-width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+}
+
+@media (max-width: 992px) {
+  .promo-container {
+    flex-direction: column;
+  }
+}

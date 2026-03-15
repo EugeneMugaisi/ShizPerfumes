@@ -1,0 +1,128 @@
+.cta-banner {
+  background-color: #e6f1ef; /* Light green/teal background */
+  position: relative;
+  overflow: hidden;
+  padding: 80px 0;
+  margin: 60px 0;
+}
+
+.cta-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-content {
+  flex: 1;
+}
+
+.cta-heading {
+  font-family: var(--font-heading);
+  font-size: 48px;
+  color: #333;
+  margin-bottom: 10px;
+  font-weight: 400;
+}
+
+.cta-subheading {
+  font-size: 16px;
+  color: #555;
+  font-weight: 400;
+}
+
+.cta-button-wrapper {
+  flex: 0 0 auto;
+}
+
+.btn-cta {
+  display: inline-block;
+  padding: 12px 40px;
+  border: 1px solid #333;
+  background: transparent;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+
+.btn-cta::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #333;
+  transition: height 0.4s ease;
+  z-index: -1;
+}
+
+.btn-cta:hover {
+  color: #fff;
+}
+
+.btn-cta:hover::before {
+  height: 100%;
+}
+
+/* Decorative background script text */
+.cta-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-10%, -10%);
+  font-family: 'Dancing Script', cursive;
+  font-size: 220px;
+  color: rgba(123, 187, 178, 0.15);
+  z-index: 1;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Floral/Watercolor decorations (simulated) */
+.cta-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(123, 187, 178, 0.2) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.cta-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100%;
+  background: radial-gradient(circle at top right, rgba(123, 187, 178, 0.15), transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .cta-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+  
+  .cta-heading {
+    font-size: 32px;
+  }
+  
+  .cta-bg-text {
+    font-size: 120px;
+  }
+}
