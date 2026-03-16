@@ -3,9 +3,13 @@ import '../styles/Header.css';
 
 interface HeaderProps {
   cartCount: number;
+  onNavigate: (page: string) => void;
+  currentPage: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartCount }) => {
+const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage }) => {
+  const [isShopDropdownOpen, setIsShopDropdownOpen] = React.useState(false);
+
   return (
     <header className="main-header">
       <div className="container header-container">
@@ -14,13 +18,28 @@ const Header: React.FC<HeaderProps> = ({ cartCount }) => {
         </div>
 
         <div className="header-center">
-          <h1 className="logo">SHIZ PERFUMES.</h1>
+          <h1 className="logo" onClick={() => onNavigate('home')} style={{ cursor: 'pointer' }}>SHIZ PERFUMES.</h1>
         </div>
 
         <div className="header-right">
           <nav className="nav-right">
             <ul>
-              <li><a href="#">SHOP <span className="arrow">▼</span></a></li>
+              <li 
+                className={`dropdown-container ${currentPage === 'shop' ? 'active' : ''}`}
+                onMouseEnter={() => setIsShopDropdownOpen(true)}
+                onMouseLeave={() => setIsShopDropdownOpen(false)}
+              >
+                <a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>
+                  SHOP <span className="arrow">▼</span>
+                </a>
+                {isShopDropdownOpen && (
+                  <ul className="dropdown-menu">
+                    <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>SHOP CATALOG</a></li>
+                    <li><a href="#" onClick={(e) => e.preventDefault()}>FRAGRANCE FINDER</a></li>
+                    <li><a href="#" onClick={(e) => e.preventDefault()}>GIFT SETS</a></li>
+                  </ul>
+                )}
+              </li>
               <li><a href="#">CONTACTS</a></li>
             </ul>
           </nav>

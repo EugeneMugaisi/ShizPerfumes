@@ -49,28 +49,46 @@ const Hero: React.FC = () => {
     return () => clearTimeout(timer);
   }, [currentSlide]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [currentSlide, isAnimating]);
+
   const slide = slides[currentSlide];
 
   return (
-    <section className="hero" style={{ backgroundColor: slide.color }}>
-      <div className="hero-container container">
-        <div className={`hero-content ${isAnimating ? 'slide-changing' : ''}`} key={currentSlide}>
-          <div className="hero-image-wrapper">
-            <img 
-              src={slide.image} 
-              alt={slide.title} 
-              className="hero-perfume-img animate-in"
-            />
+    <section className="hero">
+      <div className="hero-slides-container" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+        {slides.map((slide, index) => (
+          <div 
+            key={slide.id} 
+            className="hero-slide" 
+            style={{ backgroundColor: slide.color }}
+          >
+            <div className="hero-container container">
+              <div className="hero-content">
+                <div className="hero-image-wrapper">
+                  <img 
+                    src={slide.image} 
+                    alt={slide.title} 
+                    className={`hero-perfume-img ${index === currentSlide ? 'animate-in' : ''}`}
+                  />
+                </div>
+                <div className="hero-text">
+                  <span className={`hero-subtitle ${index === currentSlide ? 'animate-in-up' : ''}`}>{slide.subtitle}</span>
+                  <h2 className={`hero-title ${index === currentSlide ? 'animate-in-up delay-1' : ''}`}>{slide.title}</h2>
+                  <p className={`hero-description ${index === currentSlide ? 'animate-in-up delay-2' : ''}`}>
+                    {slide.description}
+                  </p>
+                  <button className={`btn-primary ${index === currentSlide ? 'animate-in-up delay-3' : ''}`}>DISCOVER</button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="hero-text">
-            <span className="hero-subtitle animate-in-up">{slide.subtitle}</span>
-            <h2 className="hero-title animate-in-up delay-1">{slide.title}</h2>
-            <p className="hero-description animate-in-up delay-2">
-              {slide.description}
-            </p>
-            <button className="btn-primary animate-in-up delay-3">DISCOVER</button>
-          </div>
-        </div>
+        ))}
       </div>
       
       <div className="hero-nav hero-nav-prev" onClick={prevSlide}>
