@@ -97,16 +97,6 @@ const Hero: React.FC = () => {
       <div className="hero-nav hero-nav-next" onClick={nextSlide}>
         <span>NEXT</span>
       </div>
-
-      <div className="hero-pagination">
-        {slides.map((_, index) => (
-          <div 
-            key={index} 
-            className={`pagination-dot ${index === currentSlide ? 'active' : ''}`}
-            onClick={() => setCurrentSlide(index)}
-          />
-        ))}
-      </div>
     </section>
   );
 };

@@ -116,6 +116,44 @@ export const products: Product[] = [
     onSale: false,
     category: "Oriental",
     isNew: true
+  },
+  {
+    id: 201,
+    name: "Luxury Floral Gift Set",
+    image: "https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&q=80&w=400",
+    rating: 5,
+    price: 32000,
+    oldPrice: 38000,
+    onSale: true,
+    category: "Gift Sets"
+  },
+  {
+    id: 202,
+    name: "Classic Woody Collection",
+    image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&q=80&w=400",
+    rating: 5,
+    price: 28500,
+    onSale: false,
+    category: "Gift Sets"
+  },
+  {
+    id: 203,
+    name: "Essential Mist Trio",
+    image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&q=80&w=400",
+    rating: 4,
+    price: 18000,
+    oldPrice: 22000,
+    onSale: true,
+    category: "Gift Sets"
+  },
+  {
+    id: 204,
+    name: "Night Bloom Duet",
+    image: "https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=400",
+    rating: 5,
+    price: 24000,
+    onSale: false,
+    category: "Gift Sets"
   }
 ];
 
@@ -126,5 +164,6 @@ export const categories = [
   "Aquatic",
   "Oriental",
   "Woody",
-  "Citrus"
+  "Citrus",
+  "Gift Sets"
 ];

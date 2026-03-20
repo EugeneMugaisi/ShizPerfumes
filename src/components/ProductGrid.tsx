@@ -1,6 +1,8 @@
 import React from 'react';
 import '../styles/ProductGrid.css';
 
+import { Product as ProductType } from '../data/products';
+
 interface Product {
   id: number;
   name: string;
@@ -14,7 +16,10 @@ interface Product {
 interface ProductGridProps {
   title: string;
   subtitle: string;
-  onAddToCart: () => void;
+  onAddToCart: (product: any) => void;
+  onNavigate: (page: string) => void;
+  wishlistItems: ProductType[];
+  onToggleWishlist: (product: any) => void;
 }
 
 const products: Product[] = [
@@ -86,14 +91,8 @@ const products: Product[] = [
   }
 ];
 
-const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, onAddToCart }) => {
-  const [likedProducts, setLikedProducts] = React.useState<number[]>([]);
-
-  const toggleLike = (id: number) => {
-    setLikedProducts(prev => 
-      prev.includes(id) ? prev.filter(productId => productId !== id) : [...prev, id]
-    );
-  };
+const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
+  const isLiked = (id: number) => wishlistItems.some(item => item.id === id);
 
   return (
     <section className="product-grid-section">
@@ -106,14 +105,19 @@ const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, onAddToCart 
         
         <div className="products-container">
           {products.map((product) => (
-            <div key={product.id} className="product-card">
+            <div 
+              key={product.id} 
+              className="product-card"
+              onClick={() => onNavigate(`product-${product.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <div className="product-image-wrapper">
                 {product.onSale && <div className="sale-badge">SALE</div>}
                 <div 
-                  className={`wishlist-btn ${likedProducts.includes(product.id) ? 'liked' : ''}`}
-                  onClick={() => toggleLike(product.id)}
+                  className={`wishlist-btn ${isLiked(product.id) ? 'liked' : ''}`}
+                  onClick={(e) => { e.stopPropagation(); onToggleWishlist(product); }}
                 >
-                  {likedProducts.includes(product.id) ? '♥' : '♡'}
+                  ♡
                 </div>
                 <img src={product.image} alt={product.name} />
               </div>
@@ -124,7 +128,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, onAddToCart 
               <h3 className="product-name">{product.name}</h3>
               
               <div className="product-footer">
-                <button className="add-to-cart-btn" onClick={onAddToCart}>
+                <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}>
                   ADD TO CART
                 </button>
                 <div className="product-price">

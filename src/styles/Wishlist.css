@@ -1,0 +1,113 @@
+.wishlist-page {
+  padding-bottom: 100px;
+}
+
+.empty-wishlist {
+  text-align: center;
+  padding: 100px 0;
+}
+
+.empty-wishlist-icon {
+  margin-bottom: 30px;
+}
+
+.empty-wishlist h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.empty-wishlist p {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.wishlist-table-container {
+  overflow-x: auto;
+}
+
+.wishlist-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.wishlist-table th {
+  text-align: left;
+  padding: 20px 10px;
+  border-bottom: 1px solid #eee;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 1px;
+  color: #333;
+}
+
+.wishlist-table td {
+  padding: 25px 10px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.wishlist-product-img {
+  width: 80px;
+  height: 90px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlist-product-img img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.wishlist-product-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.wishlist-product-name:hover {
+  color: #7bbbb2;
+}
+
+.unit-price-cell {
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+}
+
+.stock-in {
+  color: #7bbbb2;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.action-cell {
+  text-align: right;
+}
+
+@media (max-width: 768px) {
+  .stock-status-col, .stock-status-cell {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .unit-price-col, .unit-price-cell {
+    display: none;
+  }
+  
+  .wishlist-product-name {
+    font-size: 14px;
+  }
+  
+  .wishlist-product-img {
+    width: 60px;
+    height: 70px;
+  }
+}

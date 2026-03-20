@@ -118,6 +118,21 @@
 
 @media (max-width: 768px) {
   .testimonials-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    gap: 30px;
+    padding-bottom: 30px;
+    padding-right: 20px; /* Space for the last card shadow/frame */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .testimonials-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
   }
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import '../styles/ProductGrid.css';
 import '../styles/NewArrivals.css';
 
+import { Product as ProductType } from '../data/products';
+
 interface Product {
   id: number;
   name: string;
@@ -13,7 +15,9 @@ interface Product {
 }
 
 interface NewArrivalsProps {
-  onAddToCart: () => void;
+  onAddToCart: (product: any) => void;
+  wishlistItems: ProductType[];
+  onToggleWishlist: (product: any) => void;
 }
 
 const newProducts: Product[] = [
@@ -44,14 +48,8 @@ const newProducts: Product[] = [
   }
 ];
 
-const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart }) => {
-  const [likedProducts, setLikedProducts] = useState<number[]>([]);
-
-  const toggleLike = (id: number) => {
-    setLikedProducts(prev => 
-      prev.includes(id) ? prev.filter(productId => productId !== id) : [...prev, id]
-    );
-  };
+const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart, wishlistItems, onToggleWishlist }) => {
+  const isLiked = (id: number) => wishlistItems.some(item => item.id === id);
 
   return (
     <section className="product-grid-section new-arrivals-section">
@@ -68,10 +66,10 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart }) => {
               <div className="product-image-wrapper">
                 <div className="sale-badge">NEW</div>
                 <div 
-                  className={`wishlist-btn ${likedProducts.includes(product.id) ? 'liked' : ''}`}
-                  onClick={() => toggleLike(product.id)}
+                  className={`wishlist-btn ${isLiked(product.id) ? 'liked' : ''}`}
+                  onClick={() => onToggleWishlist(product)}
                 >
-                  {likedProducts.includes(product.id) ? '♥' : '♡'}
+                  ♡
                 </div>
                 <img src={product.image} alt={product.name} />
               </div>
@@ -82,7 +80,7 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart }) => {
               <h3 className="product-name">{product.name}</h3>
               
               <div className="product-footer">
-                <button className="add-to-cart-btn" onClick={onAddToCart}>
+                <button className="add-to-cart-btn" onClick={() => onAddToCart(product)}>
                   ADD TO CART
                 </button>
                 <div className="product-price">
