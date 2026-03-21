@@ -18,6 +18,7 @@ interface NewArrivalsProps {
   onAddToCart: (product: any) => void;
   wishlistItems: ProductType[];
   onToggleWishlist: (product: any) => void;
+  onNavigate: (page: string) => void;
 }
 
 const newProducts: Product[] = [
@@ -48,7 +49,7 @@ const newProducts: Product[] = [
   }
 ];
 
-const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart, wishlistItems, onToggleWishlist }) => {
+const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart, wishlistItems, onToggleWishlist, onNavigate }) => {
   const isLiked = (id: number) => wishlistItems.some(item => item.id === id);
 
   return (
@@ -93,7 +94,7 @@ const NewArrivals: React.FC<NewArrivalsProps> = ({ onAddToCart, wishlistItems, o
         </div>
 
         <div className="view-all-wrapper">
-          <a href="/shop" className="btn-primary">VIEW ALL</a>
+          <button className="btn-primary" onClick={() => onNavigate('shop')}>VIEW ALL</button>
         </div>
       </div>
     </section>

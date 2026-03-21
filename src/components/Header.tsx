@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage, onS
     setIsShopDropdownOpen(false);
   };
 
-  const toggleShopDropdown = (e: React.MouseEvent) => {
+  const handleShopClick = (e: React.MouseEvent) => {
     if (window.innerWidth <= 991) {
       e.preventDefault();
       setIsShopDropdownOpen(!isShopDropdownOpen);
@@ -61,10 +61,10 @@ const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage, onS
               <li 
                 className={`dropdown-container ${currentPage === 'shop' || currentPage === 'finder' || currentPage === 'giftsets' ? 'active' : ''}`}
               >
-                <a href="#" onClick={toggleShopDropdown}>
+                <a href="#" onClick={handleShopClick}>
                   SHOP <span className="arrow">▼</span>
                 </a>
-                <ul className={`dropdown-menu ${isShopDropdownOpen ? 'show' : ''}`}>
+                <ul className={`dropdown-menu ${isShopDropdownOpen ? 'show-mobile' : ''}`}>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('shop'); }}>SHOP CATALOG</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('finder'); }}>FRAGRANCE FINDER</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('giftsets'); }}>GIFT SETS</a></li>

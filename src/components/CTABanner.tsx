@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/CTABanner.css';
 
-const CTABanner: React.FC = () => {
+interface CTABannerProps {
+  onNavigate: (page: string) => void;
+}
+
+const CTABanner: React.FC<CTABannerProps> = ({ onNavigate }) => {
   return (
     <section className="cta-banner">
       <div className="container cta-container">
@@ -13,7 +17,7 @@ const CTABanner: React.FC = () => {
         </div>
         
         <div className="cta-button-wrapper">
-          <a href="/find-out" className="btn-cta">FIND OUT</a>
+          <button className="btn-cta" onClick={() => onNavigate('finder')}>FIND OUT</button>
         </div>
       </div>
       <div className="cta-bg-text">Perfect</div>

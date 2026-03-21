@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/SaleBanner.css';
 
-const SaleBanner: React.FC = () => {
+interface SaleBannerProps {
+  onNavigate: (page: string) => void;
+}
+
+const SaleBanner: React.FC<SaleBannerProps> = ({ onNavigate }) => {
   return (
     <section className="sale-banner-section">
       <div className="container sale-banner-container">
@@ -15,7 +19,7 @@ const SaleBanner: React.FC = () => {
             Dogteeth tetra coley Ragfish yellow-and-black triplefin grenadier 
             dogfish shark torpedo scaly dragonfish flathead
           </p>
-          <a href="/shop" className="btn-shop-now">SHOP NOW</a>
+          <button className="btn-shop-now" onClick={() => onNavigate('shop')}>SHOP NOW</button>
         </div>
         
         <div className="sale-banner-image">

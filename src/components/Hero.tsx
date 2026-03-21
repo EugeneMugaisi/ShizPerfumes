@@ -28,7 +28,11 @@ const slides = [
   }
 ];
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigate: (page: string) => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 
@@ -83,7 +87,12 @@ const Hero: React.FC = () => {
                   <p className={`hero-description ${index === currentSlide ? 'animate-in-up delay-2' : ''}`}>
                     {slide.description}
                   </p>
-                  <button className={`btn-primary ${index === currentSlide ? 'animate-in-up delay-3' : ''}`}>DISCOVER</button>
+                  <button 
+                    className={`btn-primary ${index === currentSlide ? 'animate-in-up delay-3' : ''}`}
+                    onClick={() => onNavigate('shop')}
+                  >
+                    DISCOVER
+                  </button>
                 </div>
               </div>
             </div>

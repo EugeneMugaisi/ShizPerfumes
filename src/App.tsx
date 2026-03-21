@@ -86,11 +86,11 @@ function App() {
     if (currentPage === 'home') {
       return (
         <>
-          <Hero />
-          <PromoCards />
+          <Hero onNavigate={navigateTo} />
+          <PromoCards onNavigate={navigateTo} />
           <FragranceTypes />
-          <AboutSection />
-          <CTABanner />
+          <AboutSection onNavigate={navigateTo} />
+          <CTABanner onNavigate={navigateTo} />
           <ProductGrid 
             title="Best Sellers Products" 
             subtitle="Best products" 
@@ -99,13 +99,14 @@ function App() {
             wishlistItems={wishlistItems}
             onToggleWishlist={toggleWishlist}
           />
-          <SaleBanner />
-          <FeatureSection />
+          <SaleBanner onNavigate={navigateTo} />
+          <FeatureSection onNavigate={navigateTo} />
           <Gallery />
           <NewArrivals 
             onAddToCart={addToCart} 
             wishlistItems={wishlistItems}
             onToggleWishlist={toggleWishlist}
+            onNavigate={navigateTo}
           />
           <Testimonials />
         </>
@@ -180,7 +181,7 @@ function App() {
       <main>
         {renderContent()}
       </main>
-      <Footer />
+      <Footer onNavigate={navigateTo} />
       <SearchOverlay 
         isOpen={isSearchOpen} 
         onClose={() => setIsSearchOpen(false)} 

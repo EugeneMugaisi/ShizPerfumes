@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/Footer.css';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigate: (page: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="site-footer">
       <div className="container">
@@ -25,11 +29,11 @@ const Footer: React.FC = () => {
           <div className="footer-column footer-links">
             <h3>Shop</h3>
             <ul>
-              <li><a href="#">Best Sellers</a></li>
-              <li><a href="#">New Arrivals</a></li>
-              <li><a href="#">Men's Fragrance</a></li>
-              <li><a href="#">Women's Fragrance</a></li>
-              <li><a href="#">Luxury Series</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Best Sellers</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>New Arrivals</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Men's Fragrance</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Women's Fragrance</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Luxury Series</a></li>
             </ul>
           </div>
 
@@ -37,11 +41,11 @@ const Footer: React.FC = () => {
           <div className="footer-column footer-links">
             <h3>Support</h3>
             <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Shipping & Returns</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>About Us</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('contacts'); }}>Contact Us</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Privacy Policy</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Terms of Service</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Shipping & Returns</a></li>
             </ul>
           </div>
         </div>

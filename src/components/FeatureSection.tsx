@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/FeatureSection.css';
 
-const FeatureSection: React.FC = () => {
+interface FeatureSectionProps {
+  onNavigate: (page: string) => void;
+}
+
+const FeatureSection: React.FC<FeatureSectionProps> = ({ onNavigate }) => {
   return (
     <section className="section-padding">
       <div className="container">
@@ -31,7 +35,7 @@ const FeatureSection: React.FC = () => {
             <p className="feature-description">
               Searobin freshwater hatchetfish sea bass orangestriped triggerfish white croaker. Pollock pencil catfish airbreathing catfish vendace pygmy sunfish spaghetti. Dogteeth tetra coley. Merluccid hake redlip blenny discus snake mudhead large-eye bream scissor-tail rasbora opaleye char dogfish beachsalmon, sand tilefish. Spiny eel skipping goby fierasfer tarwhine Blind goby tidewater goby rocket danio armorhead catfish streamer.
             </p>
-            <a href="/explore" className="btn-feature">EXPLORE MORE</a>
+            <button className="btn-feature" onClick={() => onNavigate('shop')}>EXPLORE MORE</button>
           </div>
         </div>
 

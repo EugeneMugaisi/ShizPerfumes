@@ -1,7 +1,11 @@
 import React from 'react';
 import '../styles/AboutSection.css';
 
-const AboutSection: React.FC = () => {
+interface AboutSectionProps {
+  onNavigate: (page: string) => void;
+}
+
+const AboutSection: React.FC<AboutSectionProps> = ({ onNavigate }) => {
   return (
     <section className="section-padding">
       <div className="container about-section">
@@ -28,7 +32,7 @@ const AboutSection: React.FC = () => {
             </div>
           </div>
           
-          <a href="/explore" className="btn-explore">EXPLORE MORE</a>
+          <button className="btn-explore" onClick={() => onNavigate('shop')}>EXPLORE MORE</button>
         </div>
         
         <div className="about-image-wrapper">
