@@ -17,7 +17,7 @@
 }
 
 .main-product-image {
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   height: 600px;
   display: flex;
   align-items: center;
@@ -41,8 +41,8 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #222;
-  color: #fff;
+  background-color: var(--text-color);
+  color: var(--bg-color);
   padding: 8px 15px;
   font-size: 12px;
   font-weight: 600;
@@ -50,7 +50,7 @@
 }
 
 .detail-sale-badge.new-badge {
-  background-color: #7bbbb2;
+  background-color: var(--primary-color);
   top: 20px;
   left: auto;
   right: 20px;
@@ -58,16 +58,16 @@
 
 .detail-category {
   font-size: 14px;
-  color: #999;
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 15px;
 }
 
 .detail-name {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 42px;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .review-count {
-  color: #777;
+  color: var(--text-light);
   font-size: 14px;
   font-weight: 400;
 }
@@ -96,18 +96,18 @@
 .detail-current-price {
   font-size: 32px;
   font-weight: 600;
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .detail-old-price {
   font-size: 22px;
-  color: #bbb;
+  color: var(--text-light);
   text-decoration: line-through;
 }
 
 .short-description {
   font-size: 16px;
-  color: #666;
+  color: var(--text-light);
   line-height: 1.8;
   margin-bottom: 40px;
 }
@@ -122,7 +122,7 @@
 .quantity-selector {
   display: flex;
   align-items: center;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   padding: 0 15px;
 }
 
@@ -130,7 +130,7 @@
   background: none;
   border: none;
   font-size: 20px;
-  color: #555;
+  color: var(--text-light);
   cursor: pointer;
   padding: 10px;
   width: 40px;
@@ -143,8 +143,8 @@
 }
 
 .quantity-selector button:hover {
-  background-color: #f5f5f5;
-  color: #7bbbb2;
+  background-color: var(--bg-secondary);
+  color: var(--primary-color);
   transform: scale(1.1);
 }
 
@@ -160,8 +160,8 @@
 
 .detail-add-to-cart {
   flex: 1;
-  background-color: #333;
-  color: #fff;
+  background-color: var(--text-color);
+  color: var(--bg-color);
   border: none;
   padding: 0 40px;
   font-weight: 600;
@@ -171,11 +171,11 @@
 }
 
 .detail-add-to-cart:hover {
-  background-color: #7bbbb2;
+  background-color: var(--primary-color);
 }
 
 .detail-meta {
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-color);
   padding-top: 30px;
   margin-bottom: 30px;
 }
@@ -183,11 +183,11 @@
 .meta-item {
   margin-bottom: 10px;
   font-size: 14px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .meta-item span {
-  color: #777;
+  color: var(--text-light);
   margin-left: 10px;
 }
 
@@ -208,14 +208,14 @@
 }
 
 .share-links a {
-  color: #999;
+  color: var(--text-light);
   text-decoration: none;
   font-size: 14px;
   transition: color 0.3s ease;
 }
 
 .share-links a:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 /* Tabs */
@@ -228,7 +228,7 @@
   display: flex;
   justify-content: center;
   gap: 60px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 40px;
 }
 
@@ -237,15 +237,15 @@
   border: none;
   padding: 20px 0;
   font-size: 18px;
-  font-family: 'Playfair Display', serif;
-  color: #999;
+  font-family: var(--font-heading);
+  color: var(--text-light);
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
 }
 
 .tabs-header button.active {
-  color: #333;
+  color: var(--text-color);
 }
 
 .tabs-header button.active::after {
@@ -255,12 +255,12 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #333;
+  background-color: var(--text-color);
 }
 
 .tab-content {
   font-size: 16px;
-  color: #666;
+  color: var(--text-light);
   line-height: 1.8;
   max-width: 900px;
   margin: 0 auto;
@@ -275,17 +275,17 @@
   text-align: left;
   padding: 15px 0;
   width: 200px;
-  border-bottom: 1px solid #f9f9f9;
+  border-bottom: 1px solid var(--bg-secondary);
 }
 
 .info-table td {
   padding: 15px 0;
-  color: #777;
-  border-bottom: 1px solid #f9f9f9;
+  color: var(--text-light);
+  border-bottom: 1px solid var(--bg-secondary);
 }
 
 .section-title-sm {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 32px;
   text-align: center;
   margin-bottom: 50px;

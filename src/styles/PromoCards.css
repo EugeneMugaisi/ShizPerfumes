@@ -5,7 +5,7 @@
 
 .promo-card {
   flex: 1;
-  background-color: #f4f7f6;
+  background-color: var(--bg-secondary);
   padding: 40px;
   display: flex;
   align-items: center;
@@ -26,19 +26,19 @@
 }
 
 .promo-subtitle {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-style: italic;
   font-size: 32px;
-  color: #7bbbb2;
+  color: var(--primary-color);
   display: block;
   margin-bottom: 5px;
 }
 
 .promo-title {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-body);
   font-size: 20px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
   line-height: 1.2;
 }
 

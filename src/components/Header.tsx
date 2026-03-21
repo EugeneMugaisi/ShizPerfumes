@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Header.css';
-import logo from '../assets/Logo/logo.jpeg';
+import logo from '../assets/Logo/ShizPerfumesLogo.png';
 
 interface HeaderProps {
   cartCount: number;

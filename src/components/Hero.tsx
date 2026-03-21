@@ -8,7 +8,7 @@ const slides = [
     title: 'A Little Surprise',
     description: 'Electric ray demoiselle squeaker unicorn fish Kafue pike bango temperate ocean-bass, yellow bass coffinfish yellowfin customers.',
     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=1000&auto=format&fit=crop',
-    color: '#f4f7f6'
+    color: 'var(--bg-secondary)'
   },
   {
     id: 2,
@@ -16,7 +16,7 @@ const slides = [
     title: 'Essence of Elegance',
     description: 'Discover our exclusive collection of premium fragrances crafted with the finest ingredients from around the world.',
     image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=1000&auto=format&fit=crop',
-    color: '#f9f4f0'
+    color: 'var(--bg-secondary)'
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ const slides = [
     title: 'Midnight Bloom',
     description: 'Experience the mystery of the night with our latest floral masterpiece. A scent that lingers and captivates the senses.',
     image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=1000&auto=format&fit=crop',
-    color: '#f0f4f9'
+    color: 'var(--bg-secondary)'
   }
 ];
 

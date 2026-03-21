@@ -13,12 +13,13 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wish
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [priceRange, setPriceRange] = useState(30000);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
+  const [sortBy, setSortBy] = useState("Default Sorting");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
 
   useEffect(() => {
-    let result = products;
+    let result = [...products];
     
     if (selectedCategory !== "All Products") {
       result = result.filter(p => p.category === selectedCategory);
@@ -31,10 +32,21 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wish
         p.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
+
+    // Apply Sorting
+    if (sortBy === "Price: Low to High") {
+      result.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "Price: High to Low") {
+      result.sort((a, b) => b.price - a.price);
+    } else if (sortBy === "Rating: High to Low") {
+      result.sort((a, b) => b.rating - a.rating);
+    } else if (sortBy === "Rating: Low to High") {
+      result.sort((a, b) => a.rating - b.rating);
+    }
     
     setFilteredProducts(result);
     setCurrentPage(1); // Reset to first page on filter change
-  }, [selectedCategory, priceRange, searchTerm]); // Add searchTerm to dependency array
+  }, [selectedCategory, priceRange, searchTerm, sortBy]); // Add sortBy to dependency array
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -142,11 +154,12 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wish
             <p>Showing {indexOfFirstProduct + 1}-{Math.min(indexOfLastProduct, filteredProducts.length)} of {filteredProducts.length} results</p>
             <div className="catalog-actions"> {/* New div to group sorting and search */}
               <div className="catalog-sorting">
-                <select>
+                <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
                   <option>Default Sorting</option>
                   <option>Price: Low to High</option>
                   <option>Price: High to Low</option>
                   <option>Rating: High to Low</option>
+                  <option>Rating: Low to High</option>
                 </select>
               </div>
               <div className="catalog-search">

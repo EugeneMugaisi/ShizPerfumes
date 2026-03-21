@@ -1,5 +1,5 @@
 .sale-banner-section {
-  background-color: #d8ede9; /* Light teal background */
+  background-color: var(--bg-secondary); /* Light teal background */
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -34,7 +34,7 @@
   transform: translate(-50%, -50%);
   width: 140%;
   height: 120%;
-  background-color: #7bbbb2;
+  background-color: var(--primary-color);
   opacity: 0.6;
   border-radius: 5px;
   z-index: -1;
@@ -43,23 +43,23 @@
 }
 
 .perfume-tag {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-accent);
   font-size: 32px;
-  color: #fff;
+  color: var(--bg-color);
   padding: 0 10px;
 }
 
 .sale-banner-title {
   font-size: 48px;
   font-weight: 300;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
   text-transform: capitalize;
 }
 
 .sale-banner-desc {
   font-size: 14px;
-  color: #555;
+  color: var(--text-light);
   max-width: 450px;
   line-height: 1.8;
   margin-bottom: 30px;
@@ -68,9 +68,9 @@
 .btn-shop-now {
   display: inline-block;
   padding: 12px 35px;
-  border: 1px solid #333;
+  border: 1px solid var(--text-color);
   background: transparent;
-  color: #333;
+  color: var(--text-color);
   text-transform: uppercase;
   font-size: 12px;
   font-weight: 600;
@@ -88,13 +88,13 @@
   left: 0;
   width: 100%;
   height: 0;
-  background-color: #333;
+  background-color: var(--text-color);
   transition: height 0.4s ease;
   z-index: -1;
 }
 
 .btn-shop-now:hover {
-  color: #fff;
+  color: var(--bg-color);
 }
 
 .btn-shop-now:hover::before {
@@ -122,15 +122,15 @@
   left: 10%;
   width: 100px;
   height: 100px;
-  background-color: #e38a8a;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 3;
-  box-shadow: 0 5px 15px rgba(227, 138, 138, 0.4);
+  box-shadow: 0 5px 15px rgba(215, 111, 110, 0.4);
 }
 
 .discount-percent {

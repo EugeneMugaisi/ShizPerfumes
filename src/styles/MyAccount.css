@@ -10,7 +10,7 @@
 .account-tabs {
   display: flex;
   margin-bottom: 40px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .account-tabs button {
@@ -18,16 +18,16 @@
   padding: 15px;
   background: none;
   border: none;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 20px;
-  color: #999;
+  color: var(--text-light);
   cursor: pointer;
   position: relative;
   transition: color 0.3s ease;
 }
 
 .account-tabs button.active {
-  color: #333;
+  color: var(--text-color);
 }
 
 .account-tabs button.active::after {
@@ -37,21 +37,21 @@
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #333;
+  background-color: var(--text-color);
 }
 
 .account-form-wrapper {
-  background-color: #f9f4f0;
+  background-color: var(--bg-secondary);
   padding: 50px;
-  border: 1px solid #e0d5cd;
+  border: 1px solid var(--border-color);
 }
 
 .form-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 28px;
   margin-bottom: 30px;
   text-align: center;
-  color: #333;
+  color: var(--text-color);
 }
 
 .form-group {
@@ -63,7 +63,7 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 10px;
-  color: #555;
+  color: var(--text-light);
 }
 
 .form-group input[type="text"],
@@ -71,16 +71,16 @@
 .form-group input[type="password"] {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   outline: none;
   font-family: inherit;
   font-size: 14px;
-  background-color: #fff;
+  background-color: var(--bg-color);
   transition: all 0.3s ease;
 }
 
 .form-group input:focus {
-  border-color: #7bbbb2;
+  border-color: var(--primary-color);
 }
 
 .form-actions-row {
@@ -104,17 +104,17 @@
 .checkbox-group input {
   width: 16px;
   height: 16px;
-  accent-color: #7bbbb2;
+  accent-color: var(--primary-color);
 }
 .forgot-password {
   font-size: 13px;
-  color: #777;
+  color: var(--text-light);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .account-submit-btn {
@@ -128,13 +128,13 @@
   text-align: center;
   margin-top: 30px;
   padding-top: 25px;
-  border-top: 1px solid #e0d5cd;
+  border-top: 1px solid var(--border-color);
 }
 
 .social-login span {
   display: block;
   font-size: 13px;
-  color: #999;
+  color: var(--text-light);
   margin-bottom: 15px;
 }
 
@@ -148,17 +148,17 @@
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  border: 1px solid #eee;
-  background-color: #fff;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-color);
   cursor: pointer;
   font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .social-btn:hover {
-  background-color: #333;
-  color: #fff;
-  border-color: #333;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border-color: var(--text-color);
 }
 
 @media (max-width: 600px) {

@@ -19,10 +19,10 @@
 }
 
 .checkout-section-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 28px;
   margin-bottom: 30px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .form-row {
@@ -40,7 +40,7 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 10px;
-  color: #555;
+  color: var(--text-light);
 }
 
 .form-group input[type="text"],
@@ -50,7 +50,7 @@
 .form-group textarea {
   width: 100%;
   padding: 12px 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   outline: none;
   font-family: inherit;
   font-size: 14px;
@@ -60,7 +60,7 @@
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: #7bbbb2;
+  border-color: var(--primary-color);
 }
 
 .form-group textarea {
@@ -82,7 +82,7 @@
 .checkbox-group input {
   width: 16px;
   height: 16px;
-  accent-color: #7bbbb2;
+  accent-color: var(--primary-color);
 }
 
 .mt-10 { margin-top: 10px; }
@@ -90,9 +90,9 @@
 
 /* Order Summary */
 .order-summary-card {
-  background-color: #f9f4f0;
+  background-color: var(--bg-secondary);
   padding: 40px;
-  border: 1px solid #e0d5cd;
+  border: 1px solid var(--border-color);
 }
 
 .order-table-header {
@@ -101,9 +101,9 @@
   font-weight: 700;
   font-size: 14px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #e0d5cd;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .order-items-list {
@@ -115,7 +115,7 @@
   justify-content: space-between;
   margin-bottom: 15px;
   font-size: 14px;
-  color: #555;
+  color: var(--text-light);
 }
 
 .order-item-name {
@@ -124,13 +124,13 @@
 
 .product-qty {
   margin-left: 5px;
-  color: #999;
+  color: var(--text-light);
 }
 
 .order-summary-footer {
   padding: 20px 0;
-  border-top: 1px solid #e0d5cd;
-  border-bottom: 1px solid #e0d5cd;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 30px;
 }
 
@@ -144,14 +144,14 @@
 .total-line {
   margin-top: 15px;
   padding-top: 15px;
-  border-top: 1px solid #e0d5cd;
+  border-top: 1px solid var(--border-color);
   font-weight: 700;
   font-size: 20px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .total-amount {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .payment-methods {
@@ -172,11 +172,11 @@
 .payment-description {
   margin-top: 15px;
   padding: 15px;
-  background-color: #fff;
+  background-color: var(--bg-color);
   font-size: 13px;
   line-height: 1.6;
-  color: #777;
-  border: 1px solid #eee;
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
 }
 
 .place-order-btn {

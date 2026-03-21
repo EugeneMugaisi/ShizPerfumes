@@ -10,7 +10,7 @@
 }
 
 .about-title-small {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-accent);
   font-size: 28px;
   color: var(--primary-color);
   margin-bottom: 10px;
@@ -88,7 +88,7 @@
 }
 
 .btn-explore:hover {
-  color: #fff;
+  color: var(--bg-color);
 }
 
 .btn-explore:hover::before {
@@ -123,14 +123,14 @@
   left: -40px;
   width: 100%;
   height: 100%;
-  border: 1px solid #333;
+  border: 1px solid var(--text-color);
   z-index: -1;
 }
 
 /* Decorative "new" text */
 .bg-text-new {
   position: absolute;
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-accent);
   font-size: 180px;
   color: rgba(123, 187, 178, 0.1);
   bottom: -40px;
@@ -162,7 +162,7 @@
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 15px solid #333;
+  border-left: 15px solid var(--text-color);
   margin-left: 5px;
 }
 

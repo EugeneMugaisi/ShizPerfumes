@@ -12,13 +12,13 @@
 }
 
 .empty-wishlist h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 32px;
   margin-bottom: 15px;
 }
 
 .empty-wishlist p {
-  color: #777;
+  color: var(--text-light);
   margin-bottom: 30px;
 }
 
@@ -34,23 +34,23 @@
 .wishlist-table th {
   text-align: left;
   padding: 20px 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   text-transform: uppercase;
   font-size: 13px;
   letter-spacing: 1px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .wishlist-table td {
   padding: 25px 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }
 
 .wishlist-product-img {
   width: 80px;
   height: 90px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -65,23 +65,23 @@
 .wishlist-product-name {
   font-size: 16px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .wishlist-product-name:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .unit-price-cell {
   font-size: 15px;
   font-weight: 500;
-  color: #555;
+  color: var(--text-light);
 }
 
 .stock-in {
-  color: #7bbbb2;
+  color: var(--primary-color);
   font-weight: 600;
   font-size: 13px;
   text-transform: uppercase;

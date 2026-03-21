@@ -107,7 +107,7 @@
 }
 
 .hero-nav:hover {
-  background: #fff;
+  background: var(--bg-color);
   padding: 15px 20px;
 }
 
@@ -143,10 +143,10 @@
 }
 
 .hero-subtitle {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-style: italic;
   font-size: 50px;
-  color: #7bbbb2;
+  color: var(--primary-color);
   display: block;
   margin-bottom: 0px;
   line-height: 1;
@@ -154,17 +154,17 @@
 
 .hero-title {
   font-size: 70px;
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-body);
   font-weight: 300;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--text-color);
   line-height: 1.1;
 }
 
 .hero-description {
-  font-family: 'Jost', sans-serif;
+  font-family: var(--font-body);
   font-size: 16px;
-  color: #777;
+  color: var(--text-light);
   max-width: 450px;
   margin-bottom: 35px;
   line-height: 1.8;
@@ -174,7 +174,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: #fff;
+  background: var(--bg-color);
   padding: 10px 15px;
   cursor: pointer;
   z-index: 2;

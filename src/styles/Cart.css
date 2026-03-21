@@ -12,13 +12,13 @@
 }
 
 .empty-cart h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 32px;
   margin-bottom: 15px;
 }
 
 .empty-cart p {
-  color: #777;
+  color: var(--text-light);
   margin-bottom: 30px;
 }
 
@@ -41,16 +41,16 @@
 .cart-table th {
   text-align: left;
   padding: 20px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   text-transform: uppercase;
   font-size: 13px;
   letter-spacing: 1px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .cart-table td {
   padding: 25px 0;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   vertical-align: middle;
 }
 
@@ -67,7 +67,7 @@
 .cart-product-img {
   width: 80px;
   height: 90px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,35 +83,35 @@
 .cart-product-name {
   font-size: 16px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 5px;
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
 .cart-product-name:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .cart-product-cat {
   font-size: 12px;
-  color: #999;
+  color: var(--text-light);
   text-transform: uppercase;
 }
 
 .price-cell, .subtotal-cell {
   font-size: 15px;
-  color: #555;
+  color: var(--text-light);
   font-weight: 500;
 }
 
 .remove-btn {
   background: none;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  color: #999;
+  color: var(--text-light);
   font-size: 18px;
   cursor: pointer;
   display: flex;
@@ -123,7 +123,7 @@
 .remove-btn:hover {
   background-color: #ff4d4d;
   border-color: #ff4d4d;
-  color: #fff;
+  color: var(--bg-color);
 }
 
 .cart-actions-row {
@@ -139,7 +139,7 @@
 
 .coupon-section input {
   padding: 12px 20px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   outline: none;
   font-family: inherit;
   width: 200px;
@@ -147,8 +147,8 @@
 
 .btn-secondary {
   background: none;
-  border: 1px solid #333;
-  color: #333;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
   padding: 12px 25px;
   font-size: 12px;
   font-weight: 600;
@@ -158,8 +158,8 @@
 }
 
 .btn-secondary:hover {
-  background-color: #333;
-  color: #fff;
+  background-color: var(--text-color);
+  color: var(--bg-color);
 }
 
 /* Cart Summary */
@@ -169,16 +169,16 @@
 }
 
 .summary-card {
-  background-color: #f9f4f0;
+  background-color: var(--bg-secondary);
   padding: 40px;
 }
 
 .summary-card h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 24px;
   margin-bottom: 30px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #e0d5cd;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .summary-row {
@@ -186,16 +186,16 @@
   justify-content: space-between;
   margin-bottom: 20px;
   font-size: 15px;
-  color: #555;
+  color: var(--text-light);
 }
 
 .total-row {
   margin-top: 25px;
   padding-top: 25px;
-  border-top: 1px solid #e0d5cd;
+  border-top: 1px solid var(--border-color);
   font-weight: 700;
   font-size: 20px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .checkout-btn {

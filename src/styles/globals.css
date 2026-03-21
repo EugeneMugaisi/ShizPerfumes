@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Radley:ital,wght@0,400;1,400&display=swap');
 
 :root {
-  --primary-color: #7bbbb2;
-  --text-color: #333333;
-  --text-light: #777777;
+  --primary-color: #d76f6e;
+  --text-color: #070707;
+  --text-light: #444444;
   --bg-color: #ffffff;
-  --bg-secondary: #f8f8f8;
-  --footer-bg: #1a1a1a;
+  --bg-secondary: #fef8f8;
+  --footer-bg: #070707;
   --border-color: #eeeeee;
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Jost', sans-serif;
+  --font-heading: 'Bodoni Moda', serif;
+  --font-body: 'Radley', serif;
+  --font-accent: 'Alex Brush', cursive;
   --container-width: 1200px;
 }
 
@@ -107,10 +108,9 @@ ul {
 }
 
 .section-title span {
-  font-family: 'Playfair Display', serif;
-  font-style: italic;
+  font-family: var(--font-accent);
   color: var(--primary-color);
-  font-size: 20px;
+  font-size: 24px;
   display: block;
   margin-bottom: 10px;
 }

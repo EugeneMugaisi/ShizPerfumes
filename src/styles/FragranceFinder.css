@@ -5,9 +5,9 @@
 .finder-container {
   max-width: 800px;
   margin: 0 auto;
-  background-color: #f9f4f0;
+  background-color: var(--bg-secondary);
   padding: 60px;
-  border: 1px solid #e0d5cd;
+  border: 1px solid var(--border-color);
   min-height: 400px;
   display: flex;
   flex-direction: column;
@@ -18,7 +18,7 @@
 .progress-bar {
   width: 100%;
   height: 4px;
-  background-color: #eee;
+  background-color: var(--border-color);
   margin-bottom: 40px;
   position: relative;
 }
@@ -28,7 +28,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: #7bbbb2;
+  background-color: var(--primary-color);
   transition: width 0.4s ease;
 }
 
@@ -39,7 +39,7 @@
 
 .step-indicator {
   font-size: 13px;
-  color: #999;
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 15px;
@@ -47,9 +47,9 @@
 }
 
 .question-text {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 32px;
-  color: #333;
+  color: var(--text-color);
 }
 
 .options-grid {
@@ -60,24 +60,24 @@
 }
 
 .option-btn {
-  background-color: #fff;
-  border: 1px solid #eee;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
   padding: 25px 20px;
   font-size: 16px;
-  color: #555;
+  color: var(--text-light);
   transition: all 0.3s ease;
   font-family: inherit;
 }
 
 .option-btn:hover {
-  border-color: #7bbbb2;
-  color: #7bbbb2;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
   transform: translateY(-2px);
 }
 
 .back-btn {
-  color: #999;
+  color: var(--text-light);
   font-size: 14px;
   display: flex;
   align-items: center;
@@ -87,7 +87,7 @@
 }
 
 .back-btn:hover {
-  color: #333;
+  color: var(--text-color);
 }
 
 /* Loading State */
@@ -100,8 +100,8 @@
 }
 
 .loader {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #7bbbb2;
+  border: 4px solid var(--bg-secondary);
+  border-top: 4px solid var(--primary-color);
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -115,13 +115,13 @@
 }
 
 .finder-loading h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 28px;
   margin-bottom: 10px;
 }
 
 .finder-loading p {
-  color: #777;
+  color: var(--text-light);
 }
 
 /* Result State */
@@ -130,9 +130,9 @@
 }
 
 .result-subtitle {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-style: italic;
-  color: #7bbbb2;
+  color: var(--primary-color);
   font-size: 20px;
   display: block;
   margin-bottom: 10px;
@@ -146,7 +146,7 @@
 }
 
 .result-card {
-  background-color: #fff;
+  background-color: var(--bg-color);
   display: flex;
   text-align: left;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -154,7 +154,7 @@
 
 .result-image {
   flex: 1;
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -177,28 +177,28 @@
 
 .result-category {
   font-size: 12px;
-  color: #999;
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 10px;
 }
 
 .result-info h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 28px;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 15px;
 }
 
 .result-price {
   font-size: 20px;
   font-weight: 600;
-  color: #7bbbb2;
+  color: var(--primary-color);
   margin-bottom: 25px;
 }
 
 .result-desc {
-  color: #666;
+  color: var(--text-light);
   margin-bottom: 30px;
   line-height: 1.8;
 }

@@ -22,6 +22,7 @@ import FragranceFinder from './components/FragranceFinder';
 import GiftSets from './components/GiftSets';
 import SearchOverlay from './components/SearchOverlay';
 import Contacts from './components/Contacts';
+import LoadingScreen from './components/LoadingScreen';
 import { products } from './data/products';
 
 interface CartItem {
@@ -34,6 +35,16 @@ function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [wishlistItems, setWishlistItems] = useState<any[]>([]);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Hide loading screen after 3 seconds
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const addToCart = (product: any) => {
     setCartItems(prev => {
@@ -167,11 +178,19 @@ function App() {
         );
       }
     }
-    return <ShopCatalog onAddToCart={addToCart} onNavigate={navigateTo} />;
+    return (
+      <ShopCatalog 
+        onAddToCart={addToCart} 
+        onNavigate={navigateTo} 
+        wishlistItems={wishlistItems}
+        onToggleWishlist={toggleWishlist}
+      />
+    );
   };
 
   return (
     <div className="App">
+      {isLoading && <LoadingScreen />}
       <Header 
         cartCount={cartCount} 
         onNavigate={navigateTo} 

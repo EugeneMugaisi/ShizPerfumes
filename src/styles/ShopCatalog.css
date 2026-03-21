@@ -3,33 +3,33 @@
 }
 
 .catalog-header {
-  background-color: #f9f4f0;
+  background-color: var(--bg-secondary);
   padding: 60px 0;
   margin-bottom: 60px;
   text-align: center;
 }
 
 .catalog-title {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   font-size: 48px;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 15px;
 }
 
 .breadcrumb {
   font-size: 14px;
-  color: #777;
+  color: var(--text-light);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
 .breadcrumb a {
-  color: #777;
+  color: var(--text-light);
   text-decoration: none;
 }
 
 .breadcrumb a:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .catalog-container {
@@ -55,8 +55,8 @@
   font-weight: 500;
   margin-bottom: 25px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
-  color: #333;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
 }
 
 .category-list {
@@ -70,18 +70,18 @@
   padding: 10px 0;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: #555;
+  color: var(--text-light);
 }
 
 .category-list li:hover,
 .category-list li.active {
-  color: #7bbbb2;
+  color: var(--primary-color);
   padding-left: 5px;
 }
 
 .category-list li .count {
   font-size: 12px;
-  color: #999;
+  color: var(--text-light);
 }
 
 .price-filter {
@@ -91,14 +91,14 @@
 .price-slider {
   width: 100%;
   margin-bottom: 15px;
-  accent-color: #7bbbb2;
+  accent-color: var(--primary-color);
 }
 
 .price-labels {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
-  color: #666;
+  color: var(--text-light);
 }
 
 .tags-container {
@@ -109,17 +109,17 @@
 
 .tag {
   padding: 6px 15px;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   font-size: 12px;
-  color: #555;
+  color: var(--text-light);
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .tag:hover {
-  background-color: #7bbbb2;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
 }
 
 .new-arrivals-sidebar {
@@ -137,7 +137,7 @@
 .sidebar-product-img {
   width: 70px;
   height: 80px;
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -153,7 +153,7 @@
 .sidebar-product-name {
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 5px;
 }
 
@@ -167,7 +167,7 @@
 .sidebar-product-price {
   font-size: 13px;
   font-weight: 600;
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 /* Catalog Grid */
@@ -177,7 +177,7 @@
   align-items: center;
   margin-bottom: 30px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .catalog-actions {
@@ -189,10 +189,10 @@
 .catalog-sorting select,
 .catalog-search input {
   padding: 8px 15px;
-  border: 1px solid #eee;
+  border: 1px solid var(--border-color);
   outline: none;
   font-family: inherit;
-  color: #555;
+  color: var(--text-light);
   border-radius: 4px;
 }
 
@@ -216,9 +216,9 @@
 }
 
 .pagination-btn {
-  background-color: #f5f5f5;
-  border: 1px solid #eee;
-  color: #555;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-light);
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 4px;
@@ -228,15 +228,15 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-  background-color: #7bbbb2;
-  color: #fff;
-  border-color: #7bbbb2;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  border-color: var(--primary-color);
 }
 
 .pagination-btn.active {
-  background-color: #7bbbb2;
-  color: #fff;
-  border-color: #7bbbb2;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  border-color: var(--primary-color);
 }
 
 .pagination-btn:disabled {
@@ -252,14 +252,14 @@
 
 .catalog-products-grid .product-card:hover {
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  border-color: #f9f4f0;
+  border-color: var(--bg-secondary);
 }
 
 .catalog-products-grid .product-image-wrapper {
   height: 350px;
   overflow: hidden;
   position: relative;
-  background-color: #f9f9f9;
+  background-color: var(--bg-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -283,7 +283,7 @@
 
 .product-category {
   font-size: 11px;
-  color: #999;
+  color: var(--text-light);
   text-transform: uppercase;
   margin-bottom: 8px;
   letter-spacing: 1.5px;
@@ -294,8 +294,8 @@
   font-size: 19px;
   margin-bottom: 12px;
   font-weight: 500;
-  color: #333;
-  font-family: 'Jost', sans-serif;
+  color: var(--text-color);
+  font-family: var(--font-body);
 }
 
 .catalog-products-grid .product-rating {
@@ -308,7 +308,7 @@
 .catalog-products-grid .product-footer {
   display: flex;
   margin-top: 15px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--bg-secondary);
 }
 
 .catalog-products-grid .product-price {
@@ -318,19 +318,19 @@
   justify-content: center;
   align-items: center;
   padding: 10px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid var(--bg-secondary);
 }
 
 .catalog-products-grid .current-price {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
   letter-spacing: 0.5px;
 }
 
 .catalog-products-grid .old-price {
   text-decoration: line-through;
-  color: #bbb;
+  color: var(--text-light);
   font-size: 13px;
   margin-bottom: 2px;
 }
@@ -338,8 +338,8 @@
 .catalog-products-grid .add-to-cart-btn {
   flex: 1;
   height: auto; /* Allow it to match price container height */
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--bg-secondary);
+  color: var(--text-color);
   border: none; /* Border is now on the footer */
   border-radius: 0;
   display: flex;
@@ -356,16 +356,16 @@
 }
 
 .catalog-products-grid .add-to-cart-btn:hover {
-  background-color: #333;
-  color: #fff;
-  border-color: #333;
+  background-color: var(--text-color);
+  color: var(--bg-color);
+  border-color: var(--text-color);
 }
 
 .wishlist-btn {
   position: absolute;
   top: 15px;
   right: 15px;
-  color: #999;
+  color: var(--text-light);
   font-size: 20px;
   z-index: 2;
   cursor: pointer;
@@ -394,7 +394,7 @@
 .new-badge {
   top: 15px;
   left: 15px;
-  background-color: #7bbbb2;
+  background-color: var(--primary-color);
 }
 
 .no-results {
@@ -404,7 +404,7 @@
 
 .no-results p {
   font-size: 18px;
-  color: #777;
+  color: var(--text-light);
   margin-bottom: 20px;
 }
 

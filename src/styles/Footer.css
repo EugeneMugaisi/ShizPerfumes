@@ -1,6 +1,6 @@
 .site-footer {
   background-color: var(--footer-bg);
-  color: #fff;
+  color: var(--bg-color);
   padding: 80px 0 30px;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .footer-column h3 {
-  color: #fff;
+  color: var(--bg-color);
   font-size: 20px;
   margin-bottom: 30px;
   position: relative;
@@ -30,7 +30,7 @@
 }
 
 .footer-about p {
-  color: #999;
+  color: var(--text-light);
   font-size: 14px;
   line-height: 1.8;
   margin-bottom: 25px;
@@ -42,21 +42,25 @@
 }
 
 .social-icon {
-  width: 35px;
-  height: 35px;
-  border: 1px solid #333;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: #fff;
+  color: var(--bg-color);
   transition: all 0.3s ease;
-  font-size: 14px;
 }
 
 .social-icon:hover {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
+  transform: translateY(-3px);
+}
+
+.social-icon svg {
+  display: block;
 }
 
 .footer-links ul li {
@@ -64,7 +68,7 @@
 }
 
 .footer-links ul li a {
-  color: #999;
+  color: var(--text-light);
   font-size: 14px;
   transition: all 0.3s ease;
 }
@@ -75,13 +79,13 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--text-color);
   padding-top: 30px;
   text-align: center;
 }
 
 .copyright {
-  color: #777;
+  color: var(--text-light);
   font-size: 13px;
 }
 

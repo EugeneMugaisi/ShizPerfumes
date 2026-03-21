@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Placeholder: React.FC<{ name: string }> = ({ name }) => (
-  <div style={{ padding: '40px', textAlign: 'center', borderBottom: '1px solid #eee' }}>
+  <div style={{ padding: '40px', textAlign: 'center', borderBottom: '1px solid var(--border-color)' }}>
     <h3>{name} Placeholder</h3>
   </div>
 );

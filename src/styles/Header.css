@@ -1,5 +1,5 @@
 .main-header {
-  height: 90px;
+  height: 120px;
   background: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
   display: flex;
@@ -75,10 +75,11 @@
 }
 
 .logo-img {
-  height: 60px;
+  height: 100px;
   width: auto;
   object-fit: contain;
   transition: transform 0.3s ease;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
 .logo-container:hover .logo-img {
@@ -98,11 +99,11 @@
 .dropdown-menu {
   display: none !important; /* Hidden by default */
   pointer-events: none;
-  background-color: #fff;
+  background-color: var(--bg-color);
   min-width: 200px;
   padding: 15px 0;
   z-index: 100;
-  border-top: 2px solid #7bbbb2;
+  border-top: 2px solid var(--primary-color);
   list-style: none;
   margin: 0;
 }
@@ -148,14 +149,14 @@
   padding: 10px 25px !important;
   display: block;
   font-size: 13px;
-  color: #555;
+  color: var(--text-light);
   transition: all 0.3s ease;
   letter-spacing: 1px;
 }
 
 .dropdown-menu li a:hover {
-  background-color: #f9f4f0;
-  color: #7bbbb2;
+  background-color: var(--bg-secondary);
+  color: var(--primary-color);
   padding-left: 30px !important;
 }
 
@@ -177,7 +178,7 @@
 }
 
 .nav-left a:hover, .nav-right a:hover {
-  color: #7bbbb2;
+  color: var(--primary-color);
 }
 
 .arrow {
@@ -233,11 +234,11 @@
 
   .nav-right {
     position: fixed;
-    top: 90px;
+    top: 120px;
     left: -100%;
     width: 80%;
-    height: calc(100vh - 90px);
-    background-color: #fff;
+    height: calc(100vh - 120px);
+    background-color: var(--bg-color);
     transition: left 0.3s ease;
     z-index: 999;
     box-shadow: 10px 0 30px rgba(0,0,0,0.05);
@@ -268,8 +269,17 @@
 }
 
 @media (max-width: 576px) {
+  .main-header {
+    height: 100px;
+  }
+
+  .nav-right {
+    top: 100px;
+    height: calc(100vh - 100px);
+  }
+
   .logo-img {
-    height: 45px;
+    height: 70px;
   }
   
   .header-icons {
