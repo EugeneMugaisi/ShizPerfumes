@@ -182,6 +182,12 @@
   color: var(--primary-color);
 }
 
+.view-all-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
 @media (max-width: 1200px) {
   .products-container {
     grid-template-columns: repeat(3, 1fr);

@@ -12,22 +12,22 @@ const PromoCards: React.FC<PromoCardsProps> = ({ onNavigate }) => {
         <div className="promo-card promo-left">
           <div className="promo-content">
             <span className="promo-subtitle">Best price</span>
-            <h3 className="promo-title">Perfume Flower Collection</h3>
+            <h3 className="promo-title">A Perfume for Everyone</h3>
             <button className="btn-primary btn-small" onClick={() => onNavigate('shop')}>SHOP NOW</button>
           </div>
           <div className="promo-image">
-            <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=300&auto=format&fit=crop" alt="Flower Collection" />
+            <img src="/src/assets/ShizPerfumes/IMG_7797.JPG" alt="Flower Collection" />
           </div>
         </div>
         
         <div className="promo-card promo-right">
           <div className="promo-content">
             <span className="promo-subtitle">New perfume</span>
-            <h3 className="promo-title">Perfume Cool Collection</h3>
+            <h3 className="promo-title">Explore New Collection</h3>
             <button className="btn-primary btn-small" onClick={() => onNavigate('shop')}>SHOP NOW</button>
           </div>
           <div className="promo-image">
-            <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=300&auto=format&fit=crop" alt="Cool Collection" />
+            <img src="/src/assets/ShizPerfumes/IMG_7386.JPG" alt="Cool Collection" />
           </div>
         </div>
       </div>

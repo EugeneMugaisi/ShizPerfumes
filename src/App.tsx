@@ -23,38 +23,76 @@ import GiftSets from './components/GiftSets';
 import SearchOverlay from './components/SearchOverlay';
 import Contacts from './components/Contacts';
 import LoadingScreen from './components/LoadingScreen';
-import { products } from './data/products';
+import { products, Product } from './data/products';
 
 interface CartItem {
-  product: any;
+  product: Product;
   quantity: number;
 }
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [wishlistItems, setWishlistItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const savedCart = localStorage.getItem('shiz_cart');
+    return savedCart ? JSON.parse(savedCart) : [];
+  });
+  const [wishlistItems, setWishlistItems] = useState<any[]>(() => {
+    const savedWishlist = localStorage.getItem('shiz_wishlist');
+    return savedWishlist ? JSON.parse(savedWishlist) : [];
+  });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Save to localStorage whenever cart changes
+    localStorage.setItem('shiz_cart', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  useEffect(() => {
+    // Save to localStorage whenever wishlist changes
+    localStorage.setItem('shiz_wishlist', JSON.stringify(wishlistItems));
+  }, [wishlistItems]);
+
+  useEffect(() => {
+    // Sync across tabs
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'shiz_cart' && e.newValue) {
+        setCartItems(JSON.parse(e.newValue));
+      }
+      if (e.key === 'shiz_wishlist' && e.newValue) {
+        setWishlistItems(JSON.parse(e.newValue));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Check for page in URL query params
+    const params = new URLSearchParams(window.location.search);
+    const pageParam = params.get('page');
+    if (pageParam) {
+      setCurrentPage(pageParam);
+    }
+
     // Hide loading screen after 3 seconds
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      clearTimeout(timer);
+    };
   }, []);
 
-  const addToCart = (product: any) => {
+  const addToCart = (product: Product, quantity: number = 1) => {
     setCartItems(prev => {
       const existingItem = prev.find(item => item.product.id === product.id);
       if (existingItem) {
         return prev.map(item => 
-          item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
         );
       }
-      return [...prev, { product, quantity: 1 }];
+      return [...prev, { product, quantity }];
     });
   };
 
@@ -62,7 +100,7 @@ function App() {
     setWishlistItems(prev => prev.filter(item => item.id !== id));
   };
 
-  const toggleWishlist = (product: any) => {
+  const toggleWishlist = (product: Product) => {
     setWishlistItems(prev => {
       const exists = prev.find(item => item.id === product.id);
       if (exists) {
@@ -89,7 +127,13 @@ function App() {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigateTo = (page: string) => {
-    setCurrentPage(page);
+    const url = window.location.origin + window.location.pathname + (page === 'home' ? '' : '?page=' + page);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const handleHomeClick = () => {
+    setCurrentPage('home');
+    window.history.pushState({}, '', window.location.origin + window.location.pathname);
     window.scrollTo(0, 0);
   };
 
@@ -169,7 +213,7 @@ function App() {
         return (
           <ProductDetail 
             product={product} 
-            onAddToCart={() => addToCart(product)} 
+            onAddToCart={addToCart} 
             onNavigate={navigateTo}
             relatedProducts={relatedProducts}
             wishlistItems={wishlistItems}
@@ -194,6 +238,7 @@ function App() {
       <Header 
         cartCount={cartCount} 
         onNavigate={navigateTo} 
+        onHomeNavigate={handleHomeClick}
         currentPage={currentPage}
         onSearchOpen={() => setIsSearchOpen(true)}
       />

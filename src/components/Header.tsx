@@ -5,16 +5,23 @@ import logo from '../assets/Logo/ShizPerfumesLogo.png';
 interface HeaderProps {
   cartCount: number;
   onNavigate: (page: string) => void;
+  onHomeNavigate: () => void;
   currentPage: string;
   onSearchOpen: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage, onSearchOpen }) => {
+const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, onHomeNavigate, currentPage, onSearchOpen }) => {
   const [isShopDropdownOpen, setIsShopDropdownOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handleNavigate = (page: string) => {
     onNavigate(page);
+    setIsMobileMenuOpen(false);
+    setIsShopDropdownOpen(false);
+  };
+
+  const handleHomeNavigate = () => {
+    onHomeNavigate();
     setIsMobileMenuOpen(false);
     setIsShopDropdownOpen(false);
   };
@@ -47,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage, onS
         </div>
 
         <div className="header-center">
-          <div className="logo-container" onClick={() => handleNavigate('home')}>
+          <div className="logo-container" onClick={handleHomeNavigate}>
             <img src={logo} alt="Shiz Perfumes Logo" className="logo-img" />
           </div>
         </div>
@@ -56,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, currentPage, onS
           <nav className={`nav-right ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
             <ul>
               <li className={currentPage === 'home' ? 'active' : ''}>
-                <a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('home'); }}>HOME</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); handleHomeNavigate(); }}>HOME</a>
               </li>
               <li 
                 className={`dropdown-container ${currentPage === 'shop' || currentPage === 'finder' || currentPage === 'giftsets' ? 'active' : ''}`}

@@ -14,21 +14,21 @@ const AboutSection: React.FC<AboutSectionProps> = ({ onNavigate }) => {
           <h2 className="about-heading">PERFECT PERFUME</h2>
           
           <div className="about-subheading">
-            Popularized through customer relationships with some of the world's most recognizable faces.
+            Your journey to finding the perfect signature scent starts here with Kenya's premier fragrance destination.
           </div>
           
           <div className="about-description">
-            Merluccid hake redlip blenny discus snake mudhead large-eye bream scissor-tail rasbora opaleye char dogfish beachsalmon, sand tilefish. Spiny eel skipping goby fierasfer tarwhine Blind goby tidewater goby rocket danio armorhead catfish streamer.
+            Shiz Perfumes has established itself as the leading supplier of authentic designer and niche fragrances in Kenya. We pride ourselves on curating an exclusive collection of the world's most sought-after scents, ensuring every bottle we deliver is a testament to luxury and individuality. Our passion for olfactory excellence and commitment to customer satisfaction has made us the trusted choice for fragrance enthusiasts across the country.
           </div>
           
           <div className="about-stats">
             <div className="stat-item">
-              <h3>470 k</h3>
+              <h3>500+</h3>
               <p>Perfumes sold</p>
             </div>
             <div className="stat-item">
-              <h3>10 years</h3>
-              <p>Perfect years</p>
+              <h3>300+</h3>
+              <p>Happy Customers</p>
             </div>
           </div>
           
@@ -38,7 +38,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ onNavigate }) => {
         <div className="about-image-wrapper">
           <div className="about-image-container">
             <img 
-              src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&q=80&w=1000" 
+              src="/src/assets/ShizPerfumes/IMG_7716.JPG" 
               alt="Perfume being used" 
             />
             <div className="play-btn"></div>

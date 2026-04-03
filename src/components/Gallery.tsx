@@ -3,12 +3,12 @@ import '../styles/Gallery.css';
 
 const Gallery: React.FC = () => {
   const galleryItems = [
-    { id: 1, title: 'Summer Collection', image: 'https://images.unsplash.com/photo-1541604193435-225878994a21?auto=format&fit=crop&q=80&w=800' },
-    { id: 2, title: 'Elegant Scents', image: 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&q=80&w=800' },
-    { id: 3, title: 'Floral Notes', image: 'https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&q=80&w=800' },
-    { id: 4, title: 'Citrus Bliss', image: 'https://images.unsplash.com/photo-1557170334-a7c3a4e2ef38?auto=format&fit=crop&q=80&w=800' },
-    { id: 5, title: 'Luxury Series', image: 'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&q=80&w=800' },
-    { id: 6, title: 'Night Out', image: 'https://images.unsplash.com/photo-1616984268282-552424b225d7?auto=format&fit=crop&q=80&w=800' },
+    { id: 1, title: 'Summer Collection', image: '/src/assets/Catalog/56.png' },
+    { id: 2, title: 'Elegant Scents', image: '/src/assets/Catalog/59.png' },
+    { id: 3, title: 'Floral Notes', image: '/src/assets/Catalog/58.png' },
+    { id: 4, title: 'Citrus Bliss', image: '/src/assets/Catalog/60.png' },
+    { id: 5, title: 'Luxury Series', image: '/src/assets/Catalog/61.png' },
+    { id: 6, title: 'Night Out', image: '/src/assets/Catalog/63.png' },
   ];
 
   return (

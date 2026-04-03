@@ -30,8 +30,8 @@ const Testimonials: React.FC = () => {
     <section className="testimonials-section">
       <div className="container">
         <div className="section-title">
-          <span>What Clients Say</span>
-          <h2>Customer Testimonials</h2>
+          <span>Testimonials</span>
+          <h2>What Our Customers say</h2>
           <p>Don't just take our word for it—hear from our satisfied customers around the globe.</p>
         </div>
         

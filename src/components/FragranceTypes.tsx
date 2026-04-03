@@ -4,7 +4,7 @@ import '../styles/FragranceTypes.css';
 const fragranceCategories = [
   {
     title: 'Fresh Fragrances',
-    description: 'Black scalyfin kingfish convict blenny ziege yellow moray whalefish silver driftinity elpo',
+    description: 'Clean, bright and uplifting scents often featuring citrus, green notes and water accords for an energetic feel.',
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M32 10C32 10 15 25 15 40C15 49.3888 22.6112 57 32 57C41.3888 57 49 49.3888 49 40C49 25 32 10 32 10Z" />
@@ -14,7 +14,7 @@ const fragranceCategories = [
   },
   {
     title: 'Floral Fragrances',
-    description: 'Atlantic eel cutthroat eel atka mackerel freshwater eel rock bass rocketly gylty',
+    description: 'The most popular family, ranging from single flower notes to complex bouquets of jasmine, rose and lily.',
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="32" cy="32" r="6" />
@@ -27,7 +27,7 @@ const fragranceCategories = [
   },
   {
     title: 'Oceanic Fragrances',
-    description: 'California halibut gianttail dogfish plunderfish dorado rock beauty combtooth blenny',
+    description: 'Modern, crisp scents that evoke the sea breeze, salt water and fresh coastal air for ultimate clarity.',
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M10 40C15 35 20 35 25 40C30 45 35 45 40 40C45 35 50 35 54 40" />
@@ -38,7 +38,7 @@ const fragranceCategories = [
   },
   {
     title: 'Woody Fragrances',
-    description: 'Redmouth whalefish ling cod koi spotted dogfish lemon sole nurse sandfish slender catfish.',
+    description: 'Warm, mysterious and earthy scents based on sandalwood, cedarwood, amber and vetiver for deep character.',
     icon: (
       <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M32 10L45 50H19L32 10Z" />

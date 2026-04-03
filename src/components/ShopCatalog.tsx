@@ -11,7 +11,7 @@ interface ShopCatalogProps {
 
 const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
   const [selectedCategory, setSelectedCategory] = useState("All Products");
-  const [priceRange, setPriceRange] = useState(30000);
+  const [priceRange, setPriceRange] = useState(50000);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
   const [sortBy, setSortBy] = useState("Default Sorting");
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
@@ -97,7 +97,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wish
               <input 
                 type="range" 
                 min="0" 
-                max="30000" 
+                max="50000" 
                 step="500" 
                 value={priceRange}
                 onChange={(e) => setPriceRange(parseInt(e.target.value))}
@@ -220,7 +220,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wish
           {filteredProducts.length === 0 && (
             <div className="no-results">
               <p>No products found matching your criteria.</p>
-              <button className="btn-primary" onClick={() => { setSelectedCategory("All Products"); setPriceRange(30000); setSearchTerm(""); }}>
+              <button className="btn-primary" onClick={() => { setSelectedCategory("All Products"); setPriceRange(50000); setSearchTerm(""); }}>
                 Clear Filters
               </button>
             </div>

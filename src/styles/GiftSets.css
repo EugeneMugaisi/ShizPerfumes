@@ -11,7 +11,7 @@
 }
 
 .gift-banner {
-  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?auto=format&fit=crop&q=80&w=1200');
+  background-image: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url('/src/assets/ShizPerfumes/IMG_7320.JPG');
   background-size: cover;
   background-position: center;
   height: 400px;

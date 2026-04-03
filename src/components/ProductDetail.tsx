@@ -4,7 +4,7 @@ import '../styles/ProductDetail.css';
 
 interface ProductDetailProps {
   product: Product;
-  onAddToCart: () => void;
+  onAddToCart: (product: Product, quantity: number) => void;
   onNavigate: (page: string) => void;
   relatedProducts: Product[];
   wishlistItems: Product[];
@@ -71,7 +71,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             </div>
 
             <p className="short-description">
-              Experience the essence of luxury with {product.name}. This exquisite fragrance combines premium notes to create a lasting impression that is both sophisticated and alluring. Perfect for any occasion where you want to stand out.
+              {product.description || `Experience the essence of luxury with ${product.name}. This exquisite fragrance combines premium notes to create a lasting impression that is both sophisticated and alluring. Perfect for any occasion where you want to stand out.`}
             </p>
 
             <div className="detail-actions">
@@ -80,7 +80,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                 <span>{quantity}</span>
                 <button onClick={incrementQuantity}>+</button>
               </div>
-              <button className="btn-primary detail-add-to-cart" onClick={onAddToCart}>
+              <button className="btn-primary detail-add-to-cart" onClick={() => onAddToCart(product, quantity)}>
                 ADD TO CART
               </button>
             </div>
@@ -92,6 +92,16 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
               <div className="meta-item">
                 <strong>Category:</strong> <span>{product.category}</span>
               </div>
+              {product.fragranceFamily && (
+                <div className="meta-item">
+                  <strong>Fragrance Family:</strong> <span>{product.fragranceFamily}</span>
+                </div>
+              )}
+              {product.scentType && (
+                <div className="meta-item">
+                  <strong>Scent Type:</strong> <span>{product.scentType}</span>
+                </div>
+              )}
               <div className="meta-item">
                 <strong>Tags:</strong> <span>Perfume, Luxury, {product.category}</span>
               </div>
@@ -141,6 +151,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
               <div className="additional-content">
                 <table className="info-table">
                   <tbody>
+                    {product.fragranceFamily && (
+                      <tr>
+                        <th>Fragrance Family</th>
+                        <td>{product.fragranceFamily}</td>
+                      </tr>
+                    )}
+                    {product.scentType && (
+                      <tr>
+                        <th>Scent Type</th>
+                        <td>{product.scentType}</td>
+                      </tr>
+                    )}
                     <tr>
                       <th>Weight</th>
                       <td>0.5 kg</td>
@@ -152,10 +174,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     <tr>
                       <th>Volume</th>
                       <td>50ml, 100ml</td>
-                    </tr>
-                    <tr>
-                      <th>Concentration</th>
-                      <td>Eau de Parfum</td>
                     </tr>
                   </tbody>
                 </table>
@@ -197,7 +215,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                       {rp.oldPrice && <span className="old-price">Ksh. {rp.oldPrice.toLocaleString()}</span>}
                       <span className="current-price">Ksh. {rp.price.toLocaleString()}</span>
                     </div>
-                    <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); onAddToCart(); }}>
+                    <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); onAddToCart(rp, 1); }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
                         <line x1="3" y1="6" x2="21" y2="6"></line>

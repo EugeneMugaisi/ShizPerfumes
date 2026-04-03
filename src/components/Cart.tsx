@@ -16,8 +16,7 @@ interface CartProps {
 
 const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onRemoveItem, onNavigate }) => {
   const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-  const shipping = subtotal > 0 ? 500 : 0;
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   return (
     <div className="cart-page">
@@ -103,10 +102,6 @@ const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onRemoveItem, 
                 <div className="summary-row">
                   <span>Subtotal</span>
                   <span>Ksh. {subtotal.toLocaleString()}</span>
-                </div>
-                <div className="summary-row">
-                  <span>Shipping</span>
-                  <span>Ksh. {shipping.toLocaleString()}</span>
                 </div>
                 <div className="summary-row total-row">
                   <span>Total</span>
