@@ -64,6 +64,12 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
+      <p
+      onClick={() => onNavigate('seller')}
+      style={{ fontSize: "0.7rem", color: "#888", cursor: "pointer", marginTop: "1rem" }}
+      >
+          Seller Access
+      </p>
     </footer>
   );
 };

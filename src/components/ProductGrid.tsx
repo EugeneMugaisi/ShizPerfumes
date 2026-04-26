@@ -1,18 +1,19 @@
 import React from 'react';
 import '../styles/ProductGrid.css';
 
-import { Product as ProductType, products } from '../data/products';
+import { Product as ProductType } from '../data/products';
 
 interface ProductGridProps {
   title: string;
   subtitle: string;
+  products: ProductType[];
   onAddToCart: (product: ProductType) => void;
   onNavigate: (page: string) => void;
   wishlistItems: ProductType[];
   onToggleWishlist: (product: ProductType) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, products, onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
   const isLiked = (id: number) => wishlistItems.some(item => item.id === id);
 
   // Use only first 8 products for best sellers if not specified

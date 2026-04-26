@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { products, categories, Product } from '../data/products';
+import { Product, categories } from '../data/products';
 import '../styles/ShopCatalog.css';
 
 interface ShopCatalogProps {
+  products: Product[];
   onAddToCart: (product: Product) => void;
   onNavigate: (page: string) => void;
   wishlistItems: Product[];
   onToggleWishlist: (product: Product) => void;
 }
 
-const ShopCatalog: React.FC<ShopCatalogProps> = ({ onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
+const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [priceRange, setPriceRange] = useState(50000);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Product } from '../data/products';
 import '../styles/Checkout.css';
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase"; // adjust path if needed
 
 interface CartItem {
   product: Product;
@@ -10,19 +12,59 @@ interface CartItem {
 interface CheckoutProps {
   cartItems: CartItem[];
   onNavigate: (page: string) => void;
+  onClearCart: () => void;
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate }) => {
+const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart }: CheckoutProps) => {
   const [paymentMethod, setPaymentMethod] = useState('bank');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const shipping = subtotal > 0 ? 500 : 0;
   const total = subtotal + shipping;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Order placed successfully! Thank you for shopping with Shiz Perfumes.');
-    onNavigate('home');
+    if (cartItems.length === 0) return;
+
+    setIsSubmitting(true);
+    const formData = new FormData(e.target as HTMLFormElement);
+    
+    const orderData = {
+      customer: {
+        firstName: formData.get('firstName'),
+        lastName: formData.get('lastName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        city: formData.get('city'),
+        country: formData.get('country'),
+      },
+      items: cartItems.map(item => ({
+        id: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        quantity: item.quantity
+      })),
+      subtotal,
+      shipping,
+      total,
+      paymentMethod,
+      status: 'pending',
+      createdAt: serverTimestamp(),
+    };
+
+    try {
+      await addDoc(collection(db, "orders"), orderData);
+      alert('Order placed successfully! Thank you for shopping with Shiz Perfumes.');
+      onClearCart();
+      onNavigate('home');
+    } catch (error) {
+      console.error("Error adding document: ", error);
+      alert('There was an error placing your order. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -46,22 +88,22 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate }) => {
               <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="firstName">First Name *</label>
-                  <input type="text" id="firstName" required />
+                  <input type="text" id="firstName" name="firstName" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="lastName">Last Name *</label>
-                  <input type="text" id="lastName" required />
+                  <input type="text" id="lastName" name="lastName" required />
                 </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="company">Company Name (Optional)</label>
-                <input type="text" id="company" />
+                <input type="text" id="company" name="company" />
               </div>
 
               <div className="form-group">
                 <label htmlFor="country">Country / Region *</label>
-                <select id="country" required>
+                <select id="country" name="country" required>
                   <option value="Kenya">Kenya</option>
                   <option value="Uganda">Uganda</option>
                   <option value="Tanzania">Tanzania</option>
@@ -71,23 +113,23 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate }) => {
 
               <div className="form-group">
                 <label htmlFor="address">Street Address *</label>
-                <input type="text" id="address" placeholder="House number and street name" required />
-                <input type="text" className="mt-10" placeholder="Apartment, suite, unit, etc. (optional)" />
+                <input type="text" id="address" name="address" placeholder="House number and street name" required />
+                <input type="text" name="address2" className="mt-10" placeholder="Apartment, suite, unit, etc. (optional)" />
               </div>
 
               <div className="form-group">
                 <label htmlFor="city">Town / City *</label>
-                <input type="text" id="city" required />
+                <input type="text" id="city" name="city" required />
               </div>
 
               <div className="form-group">
                 <label htmlFor="phone">Phone *</label>
-                <input type="tel" id="phone" required />
+                <input type="tel" id="phone" name="phone" required />
               </div>
 
               <div className="form-group">
                 <label htmlFor="email">Email Address *</label>
-                <input type="email" id="email" required />
+                <input type="email" id="email" name="email" required />
               </div>
 
               <div className="form-group checkbox-group">
@@ -98,7 +140,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate }) => {
               <h2 className="checkout-section-title mt-40">Additional Information</h2>
               <div className="form-group">
                 <label htmlFor="notes">Order Notes (Optional)</label>
-                <textarea id="notes" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                <textarea id="notes" name="notes" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
               </div>
             </div>
 
@@ -191,8 +233,8 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate }) => {
                   </div>
                 </div>
 
-                <button type="submit" className="btn-primary place-order-btn">
-                  PLACE ORDER
+                <button type="submit" className="btn-primary place-order-btn" disabled={isSubmitting}>
+                  {isSubmitting ? 'PROCESSING...' : 'PLACE ORDER'}
                 </button>
               </div>
             </div>

@@ -23,7 +23,11 @@ import GiftSets from './components/GiftSets';
 import SearchOverlay from './components/SearchOverlay';
 import Contacts from './components/Contacts';
 import LoadingScreen from './components/LoadingScreen';
-import { products, Product } from './data/products';
+import { Product } from './data/products';
+import { useProducts } from './hooks/useProducts';
+import { SellerAuthProvider } from "./seller/SellerAuthContext";
+import ProtectedRoute from "./seller/components/ProtectedRoute";
+import SellerDashboard from "./seller/pages/SellerDashboard";
 
 interface CartItem {
   product: Product;
@@ -31,6 +35,7 @@ interface CartItem {
 }
 
 function App() {
+  const { products, loading: productsLoading, seedDatabase } = useProducts();
   const [currentPage, setCurrentPage] = useState('home');
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('shiz_cart');
@@ -41,7 +46,7 @@ function App() {
     return savedWishlist ? JSON.parse(savedWishlist) : [];
   });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     // Save to localStorage whenever cart changes
@@ -73,9 +78,9 @@ function App() {
       setCurrentPage(pageParam);
     }
 
-    // Hide loading screen after 3 seconds
+    // Hide loading screen after 3 seconds minimum
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsAppReady(true);
     }, 3000);
 
     return () => {
@@ -83,6 +88,15 @@ function App() {
       clearTimeout(timer);
     };
   }, []);
+
+  const isLoading = productsLoading || !isAppReady;
+
+  useEffect(() => {
+    // Seed initial data if Firestore is empty
+    if (!productsLoading && products.length === 0) {
+      seedDatabase();
+    }
+  }, [productsLoading, products.length, seedDatabase]);
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setCartItems(prev => {
@@ -127,8 +141,10 @@ function App() {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigateTo = (page: string) => {
+    setCurrentPage(page);
     const url = window.location.origin + window.location.pathname + (page === 'home' ? '' : '?page=' + page);
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.history.pushState({}, '', url);
+    window.scrollTo(0, 0);
   };
 
   const handleHomeClick = () => {
@@ -146,9 +162,10 @@ function App() {
           <FragranceTypes />
           <AboutSection onNavigate={navigateTo} />
           <CTABanner onNavigate={navigateTo} />
-          <ProductGrid 
+          <ProductGrid
             title="Best Sellers Products" 
-            subtitle="Best products" 
+            subtitle="Best products"
+            products={products}
             onAddToCart={addToCart} 
             onNavigate={navigateTo}
             wishlistItems={wishlistItems}
@@ -168,7 +185,8 @@ function App() {
       );
     } else if (currentPage === 'shop') {
       return (
-        <ShopCatalog 
+        <ShopCatalog
+          products={products}
           onAddToCart={addToCart} 
           onNavigate={navigateTo} 
           wishlistItems={wishlistItems}
@@ -178,7 +196,7 @@ function App() {
     } else if (currentPage === 'cart') {
       return <Cart cartItems={cartItems} onUpdateQuantity={updateQuantity} onRemoveItem={removeItem} onNavigate={navigateTo} />;
     } else if (currentPage === 'checkout') {
-      return <Checkout cartItems={cartItems} onNavigate={navigateTo} />;
+      return <Checkout cartItems={cartItems} onNavigate={navigateTo} onClearCart={() => setCartItems([])} />;
     } else if (currentPage === 'account') {
       return <MyAccount onNavigate={navigateTo} />;
     } else if (currentPage === 'wishlist') {
@@ -194,16 +212,25 @@ function App() {
       return <FragranceFinder onNavigate={navigateTo} />;
     } else if (currentPage === 'giftsets') {
       return (
-        <GiftSets 
-          onAddToCart={addToCart} 
-          onNavigate={navigateTo} 
-          wishlistItems={wishlistItems}
-          onToggleWishlist={toggleWishlist}
-        />
+        <>
+          <GiftSets 
+            onAddToCart={addToCart} 
+            onNavigate={navigateTo} 
+            wishlistItems={wishlistItems}
+            onToggleWishlist={toggleWishlist}
+          />
+        </>
       );
     } else if (currentPage === 'contacts') {
       return <Contacts onNavigate={navigateTo} />;
-    } else if (currentPage.startsWith('product-')) {
+    } else if (currentPage === 'seller') {
+    return (
+    <ProtectedRoute>
+      <SellerDashboard />
+    </ProtectedRoute>
+    );
+    } else if (currentPage.startsWith('product-'))
+    {
       const productId = parseInt(currentPage.replace('product-', ''));
       const product = products.find(p => p.id === productId);
       if (product) {
@@ -224,6 +251,7 @@ function App() {
     }
     return (
       <ShopCatalog 
+        products={products}
         onAddToCart={addToCart} 
         onNavigate={navigateTo} 
         wishlistItems={wishlistItems}
@@ -233,25 +261,27 @@ function App() {
   };
 
   return (
-    <div className="App">
-      {isLoading && <LoadingScreen />}
-      <Header 
-        cartCount={cartCount} 
-        onNavigate={navigateTo} 
-        onHomeNavigate={handleHomeClick}
-        currentPage={currentPage}
-        onSearchOpen={() => setIsSearchOpen(true)}
-      />
-      <main>
-        {renderContent()}
-      </main>
-      <Footer onNavigate={navigateTo} />
-      <SearchOverlay 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-        onNavigate={navigateTo}
-      />
-    </div>
+    <SellerAuthProvider>
+      <div className="App">
+        {isLoading && <LoadingScreen />}
+        <Header 
+          cartCount={cartCount} 
+          onNavigate={navigateTo} 
+          onHomeNavigate={handleHomeClick}
+          currentPage={currentPage}
+          onSearchOpen={() => setIsSearchOpen(true)}
+        />
+        <main>
+          {renderContent()}
+        </main>
+        <Footer onNavigate={navigateTo} />
+        <SearchOverlay 
+          isOpen={isSearchOpen} 
+          onClose={() => setIsSearchOpen(false)} 
+          onNavigate={navigateTo}
+        />
+      </div>
+    </SellerAuthProvider>
   );
 }
 
