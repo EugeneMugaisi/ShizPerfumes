@@ -4,6 +4,7 @@ import {
   collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp
 } from "firebase/firestore";
 import { db } from "../../firebase";
+import ImageUploader from "../components/ImageUploader";
 
 interface Product {
   id: string;
@@ -39,6 +40,7 @@ const SellerInventory = () => {
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [productImage, setProductImage] = useState("");
 
   // Fetch products from Firestore
   const fetchProducts = async () => {
@@ -59,6 +61,7 @@ const SellerInventory = () => {
   const handleOpenAdd = () => {
     setEditingProduct(null);
     setForm(emptyForm);
+    setProductImage("");
     setShowForm(true);
     setSuccessMessage("");
   };
@@ -75,6 +78,7 @@ const SellerInventory = () => {
       scentType: product.scentType || "",
       fragranceFamily: product.fragranceFamily || "",
     });
+    setProductImage(product.image || "");
     setShowForm(true);
     setSuccessMessage("");
   };
@@ -85,7 +89,7 @@ const SellerInventory = () => {
     setForm(emptyForm);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -103,7 +107,7 @@ const SellerInventory = () => {
           description: form.description.trim(),
           stock: Number(form.stock),
           category: form.category.trim(),
-          image: form.image.trim(),
+          image: productImage,
           scentType: form.scentType.trim(),
           fragranceFamily: form.fragranceFamily.trim(),
           onSale: false,
@@ -199,8 +203,32 @@ const SellerInventory = () => {
             <FormField label="Price (KES) *" name="price" value={form.price} onChange={handleChange} placeholder="e.g. 2500" type="number" />
             <FormField label="Stock Quantity *" name="stock" value={form.stock} onChange={handleChange} placeholder="e.g. 20" type="number" />
             <FormField label="Category" name="category" value={form.category} onChange={handleChange} placeholder="e.g. Floral, Oud, Fresh" />
-            <FormField label="Image URL" name="image" value={form.image} onChange={handleChange} placeholder="https://..." />
-            <FormField label="Scent Type" name="scentType" value={form.scentType} onChange={handleChange} placeholder="e.g. Feminine, Masculine, Unisex" />
+            <div>
+              <label style={{ display: "block", marginBottom: "0.4rem", fontSize: "0.85rem", fontWeight: 500 }}>
+                Scent Type
+              </label>
+              <select
+                name="scentType"
+                value={form.scentType}
+                onChange={handleChange}
+                style={{
+                  width: "100%", padding: "0.65rem", border: "1px solid #ddd",
+                  borderRadius: "8px", fontSize: "0.9rem", boxSizing: "border-box",
+                  backgroundColor: "white", cursor: "pointer",
+                }}
+              >
+                <option value="">-- Select Scent Type --</option>
+                <option value="Masculine">Masculine</option>
+                <option value="Feminine">Feminine</option>
+                <option value="Unisex">Unisex</option>
+              </select>
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <ImageUploader
+                currentImage={productImage}
+                onUploadComplete={(url) => setProductImage(url)}
+              />
+            </div>
             <FormField label="Fragrance Family" name="fragranceFamily" value={form.fragranceFamily} onChange={handleChange} placeholder="e.g. Floral, Woody, Aromatic" />
           </div>
 

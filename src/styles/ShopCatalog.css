@@ -117,7 +117,8 @@
   transition: all 0.3s ease;
 }
 
-.tag:hover {
+.tag:hover,
+.tag.active {
   background-color: var(--primary-color);
   color: var(--bg-color);
 }

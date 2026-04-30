@@ -109,7 +109,45 @@
   font-size: 16px;
   color: var(--text-light);
   line-height: 1.8;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
+}
+
+.size-selection {
+  margin-bottom: 35px;
+}
+
+.size-selection h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--text-color);
+}
+
+.size-options {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  padding: 10px 25px;
+  border: 1px solid var(--border-color);
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: var(--text-light);
+}
+
+.size-btn:hover {
+  border-color: var(--text-color);
+  color: var(--text-color);
+}
+
+.size-btn.active {
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+  color: var(--bg-color);
 }
 
 .detail-actions {

@@ -70,7 +70,12 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose, onNaviga
                     <div className="result-details">
                       <h4>{product.name}</h4>
                       <span className="result-cat">{product.category}</span>
-                      <span className="result-price">Ksh. {product.price.toLocaleString()}</span>
+                      <span className="result-price">
+                        {product.sizes && product.sizes.length > 0 
+                          ? `From Ksh. ${Math.min(...product.sizes.map(s => s.price)).toLocaleString()}`
+                          : `Ksh. ${product.price.toLocaleString()}`
+                        }
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -91,7 +96,6 @@ const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose, onNaviga
                 <div className="popular-tags">
                   <span onClick={() => setSearchTerm('Floral')}>Floral</span>
                   <span onClick={() => setSearchTerm('Woody')}>Woody</span>
-                  <span onClick={() => setSearchTerm('Gift Sets')}>Gift Sets</span>
                   <span onClick={() => setSearchTerm('Oud')}>Oud</span>
                 </div>
               </div>

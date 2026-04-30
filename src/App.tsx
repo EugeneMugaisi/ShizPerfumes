@@ -19,9 +19,11 @@ import Checkout from './components/Checkout';
 import MyAccount from './components/MyAccount';
 import Wishlist from './components/Wishlist';
 import FragranceFinder from './components/FragranceFinder';
-import GiftSets from './components/GiftSets';
 import SearchOverlay from './components/SearchOverlay';
 import Contacts from './components/Contacts';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
+import ShippingReturns from './components/ShippingReturns';
 import LoadingScreen from './components/LoadingScreen';
 import { Product } from './data/products';
 import { useProducts } from './hooks/useProducts';
@@ -32,6 +34,8 @@ import SellerDashboard from "./seller/pages/SellerDashboard";
 interface CartItem {
   product: Product;
   quantity: number;
+  selectedSize?: string;
+  selectedPrice?: number;
 }
 
 function App() {
@@ -98,15 +102,28 @@ function App() {
     }
   }, [productsLoading, products.length, seedDatabase]);
 
-  const addToCart = (product: Product, quantity: number = 1) => {
+  const addToCart = (product: Product, quantity: number = 1, selectedSize?: string, selectedPrice?: number) => {
     setCartItems(prev => {
-      const existingItem = prev.find(item => item.product.id === product.id);
+      const actualSize = selectedSize || (product.sizes ? product.sizes[0].size : undefined);
+      const actualPrice = selectedPrice || (product.sizes ? product.sizes[0].price : product.price);
+      
+      const existingItem = prev.find(item => 
+        item.product.id === product.id && item.selectedSize === actualSize
+      );
+      
       if (existingItem) {
         return prev.map(item => 
-          item.product.id === product.id ? { ...item, quantity: item.quantity + quantity } : item
+          (item.product.id === product.id && item.selectedSize === actualSize) 
+            ? { ...item, quantity: item.quantity + quantity } 
+            : item
         );
       }
-      return [...prev, { product, quantity }];
+      return [...prev, { 
+        product, 
+        quantity, 
+        selectedSize: actualSize,
+        selectedPrice: actualPrice
+      }];
     });
   };
 
@@ -124,9 +141,9 @@ function App() {
     });
   };
 
-  const updateQuantity = (id: number, delta: number) => {
+  const updateQuantity = (id: number, delta: number, selectedSize?: string) => {
     setCartItems(prev => prev.map(item => {
-      if (item.product.id === id) {
+      if (item.product.id === id && item.selectedSize === selectedSize) {
         const newQty = item.quantity + delta;
         return { ...item, quantity: newQty > 0 ? newQty : 1 };
       }
@@ -134,8 +151,8 @@ function App() {
     }));
   };
 
-  const removeItem = (id: number) => {
-    setCartItems(prev => prev.filter(item => item.product.id !== id));
+  const removeItem = (id: number, selectedSize?: string) => {
+    setCartItems(prev => prev.filter(item => !(item.product.id === id && item.selectedSize === selectedSize)));
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
@@ -183,7 +200,7 @@ function App() {
           <Testimonials />
         </>
       );
-    } else if (currentPage === 'shop') {
+    } else if (currentPage === 'shop' || currentPage === 'best-sellers' || currentPage === 'new-arrivals' || currentPage === 'men' || currentPage === 'women' || currentPage === 'luxury') {
       return (
         <ShopCatalog
           products={products}
@@ -191,6 +208,7 @@ function App() {
           onNavigate={navigateTo} 
           wishlistItems={wishlistItems}
           onToggleWishlist={toggleWishlist}
+          initialFilter={currentPage === 'shop' ? undefined : currentPage}
         />
       );
     } else if (currentPage === 'cart') {
@@ -210,19 +228,14 @@ function App() {
       );
     } else if (currentPage === 'finder') {
       return <FragranceFinder onNavigate={navigateTo} />;
-    } else if (currentPage === 'giftsets') {
-      return (
-        <>
-          <GiftSets 
-            onAddToCart={addToCart} 
-            onNavigate={navigateTo} 
-            wishlistItems={wishlistItems}
-            onToggleWishlist={toggleWishlist}
-          />
-        </>
-      );
     } else if (currentPage === 'contacts') {
       return <Contacts onNavigate={navigateTo} />;
+    } else if (currentPage === 'privacy') {
+      return <PrivacyPolicy onNavigate={navigateTo} />;
+    } else if (currentPage === 'terms') {
+      return <TermsOfService onNavigate={navigateTo} />;
+    } else if (currentPage === 'shipping') {
+      return <ShippingReturns onNavigate={navigateTo} />;
     } else if (currentPage === 'seller') {
     return (
     <ProtectedRoute>

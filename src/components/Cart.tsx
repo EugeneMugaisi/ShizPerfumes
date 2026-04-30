@@ -5,17 +5,19 @@ import '../styles/Cart.css';
 interface CartItem {
   product: Product;
   quantity: number;
+  selectedSize?: string;
+  selectedPrice?: number;
 }
 
 interface CartProps {
   cartItems: CartItem[];
-  onUpdateQuantity: (id: number, delta: number) => void;
-  onRemoveItem: (id: number) => void;
+  onUpdateQuantity: (id: number, delta: number, selectedSize?: string) => void;
+  onRemoveItem: (id: number, selectedSize?: string) => void;
   onNavigate: (page: string) => void;
 }
 
 const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onRemoveItem, onNavigate }) => {
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + ((item.selectedPrice || item.product.price) * item.quantity), 0);
   const total = subtotal;
 
   return (
@@ -57,8 +59,8 @@ const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onRemoveItem, 
                   </tr>
                 </thead>
                 <tbody>
-                  {cartItems.map((item) => (
-                    <tr key={item.product.id}>
+                  {cartItems.map((item, index) => (
+                    <tr key={`${item.product.id}-${item.selectedSize || index}`}>
                       <td className="product-cell">
                         <div className="cart-product-info">
                           <div className="cart-product-img">
@@ -67,20 +69,21 @@ const Cart: React.FC<CartProps> = ({ cartItems, onUpdateQuantity, onRemoveItem, 
                           <div>
                             <h4 className="cart-product-name" onClick={() => onNavigate(`product-${item.product.id}`)}>{item.product.name}</h4>
                             <span className="cart-product-cat">{item.product.category}</span>
+                            {item.selectedSize && <div className="cart-product-size">Size: {item.selectedSize}</div>}
                           </div>
                         </div>
                       </td>
-                      <td className="price-cell">Ksh. {item.product.price.toLocaleString()}</td>
+                      <td className="price-cell">Ksh. {(item.selectedPrice || item.product.price).toLocaleString()}</td>
                       <td className="quantity-cell">
                         <div className="quantity-selector cart-qty">
-                          <button onClick={() => onUpdateQuantity(item.product.id, -1)}>-</button>
+                          <button onClick={() => onUpdateQuantity(item.product.id, -1, item.selectedSize)}>-</button>
                           <span>{item.quantity}</span>
-                          <button onClick={() => onUpdateQuantity(item.product.id, 1)}>+</button>
+                          <button onClick={() => onUpdateQuantity(item.product.id, 1, item.selectedSize)}>+</button>
                         </div>
                       </td>
-                      <td className="subtotal-cell">Ksh. {(item.product.price * item.quantity).toLocaleString()}</td>
+                      <td className="subtotal-cell">Ksh. {((item.selectedPrice || item.product.price) * item.quantity).toLocaleString()}</td>
                       <td className="remove-cell">
-                        <button className="remove-btn" onClick={() => onRemoveItem(item.product.id)}>×</button>
+                        <button className="remove-btn" onClick={() => onRemoveItem(item.product.id, item.selectedSize)}>×</button>
                       </td>
                     </tr>
                   ))}

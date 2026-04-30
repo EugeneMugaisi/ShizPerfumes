@@ -1,5 +1,12 @@
+export interface ProductSize {
+  size: string;
+  price: number;
+  oldPrice?: number;
+}
+
 export interface Product {
   id: number;
+  firebaseId?: string;
   name: string;
   image: string;
   rating: number;
@@ -11,6 +18,7 @@ export interface Product {
   onSale: boolean;
   category: string;
   isNew?: boolean;
+  sizes?: ProductSize[];
 }
 
 export const products: Product[] = [
@@ -24,7 +32,11 @@ export const products: Product[] = [
     scentType: "Masculine",
     fragranceFamily: "Woody, Aromatic",
     onSale: false,
-    category: "Woody"
+    category: "Woody",
+    sizes: [
+      { size: "60ml", price: 12500 },
+      { size: "100ml", price: 15999 }
+    ]
   },
   {
     id: 363,
@@ -36,7 +48,11 @@ export const products: Product[] = [
     scentType: "Masculine",
     fragranceFamily: "Oriental, Spicy, Amber, Woody",
     onSale: false,
-    category: "Oriental"
+    category: "Oriental",
+    sizes: [
+      { size: "60ml", price: 13500 },
+      { size: "100ml", price: 17500 }
+    ]
   },
   {
     id: 362,
@@ -886,42 +902,6 @@ export const products: Product[] = [
     onSale: false,
     category: "Woody",
     isNew: true
-  },
-  {
-    id: 201,
-    name: "Mugler Angel Elixir",
-    image: "/src/assets/Catalog/22.png",
-    rating: 5,
-    price: 12300,
-    onSale: false,
-    category: "Gift Set"
-  },
-  {
-    id: 202,
-    name: "Tom Ford Black Orchid",
-    image: "/src/assets/Catalog/19.png",
-    rating: 5,
-    price: 21000,
-    onSale: false,
-    category: "Gift Set"
-  },
-  {
-    id: 203,
-    name: "Xerjoff Erba Pura",
-    image: "/src/assets/Catalog/20.png",
-    rating: 5,
-    price: 35500,
-    onSale: false,
-    category: "Gift Set"
-  },
-  {
-    id: 204,
-    name: "Xerjoff Erba Gold",
-    image: "/src/assets/Catalog/21.png",
-    rating: 5,
-    price: 27500,
-    onSale: false,
-    category: "Gift Set"
   }
 ];
 
@@ -940,6 +920,5 @@ export const categories = [
   "Gourmand",
   "Sweet",
   "Vanilla",
-  "Powder",
-  "Gift Set"
+  "Powder"
 ];

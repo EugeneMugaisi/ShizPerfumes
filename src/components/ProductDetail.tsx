@@ -4,7 +4,7 @@ import '../styles/ProductDetail.css';
 
 interface ProductDetailProps {
   product: Product;
-  onAddToCart: (product: Product, quantity: number) => void;
+  onAddToCart: (product: Product, quantity: number, selectedSize?: string, selectedPrice?: number) => void;
   onNavigate: (page: string) => void;
   relatedProducts: Product[];
   wishlistItems: Product[];
@@ -21,11 +21,15 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
+  const [selectedSize, setSelectedSize] = useState(product.sizes ? product.sizes[0] : null);
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
 
   const isLiked = (id: number) => wishlistItems.some(item => item.id === id);
+
+  const currentPrice = selectedSize ? selectedSize.price : product.price;
+  const currentOldPrice = selectedSize ? selectedSize.oldPrice : product.oldPrice;
 
   return (
     <div className="product-detail-page">
@@ -66,13 +70,30 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
             </div>
             
             <div className="detail-price">
-              {product.oldPrice && <span className="detail-old-price">Ksh. {product.oldPrice.toLocaleString()}</span>}
-              <span className="detail-current-price">Ksh. {product.price.toLocaleString()}</span>
+              {currentOldPrice && <span className="detail-old-price">Ksh. {currentOldPrice.toLocaleString()}</span>}
+              <span className="detail-current-price">Ksh. {currentPrice.toLocaleString()}</span>
             </div>
 
             <p className="short-description">
               {product.description || `Experience the essence of luxury with ${product.name}. This exquisite fragrance combines premium notes to create a lasting impression that is both sophisticated and alluring. Perfect for any occasion where you want to stand out.`}
             </p>
+
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="size-selection">
+                <h3>Select Size:</h3>
+                <div className="size-options">
+                  {product.sizes.map((s) => (
+                    <button 
+                      key={s.size} 
+                      className={`size-btn ${selectedSize?.size === s.size ? 'active' : ''}`}
+                      onClick={() => setSelectedSize(s)}
+                    >
+                      {s.size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="detail-actions">
               <div className="quantity-selector">
@@ -80,7 +101,10 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                 <span>{quantity}</span>
                 <button onClick={incrementQuantity}>+</button>
               </div>
-              <button className="btn-primary detail-add-to-cart" onClick={() => onAddToCart(product, quantity)}>
+              <button 
+                className="btn-primary detail-add-to-cart" 
+                onClick={() => onAddToCart(product, quantity, selectedSize?.size, selectedSize?.price)}
+              >
                 ADD TO CART
               </button>
             </div>
@@ -173,7 +197,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     </tr>
                     <tr>
                       <th>Volume</th>
-                      <td>50ml, 100ml</td>
+                      <td>{product.sizes ? product.sizes.map(s => s.size).join(', ') : '50ml, 100ml'}</td>
                     </tr>
                   </tbody>
                 </table>

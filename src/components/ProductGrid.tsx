@@ -58,7 +58,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, products, on
                 </button>
                 <div className="product-price">
                   {product.oldPrice && <span className="old-price">Ksh. {product.oldPrice.toLocaleString()}</span>}
-                  <span className="current-price">Ksh. {product.price.toLocaleString()}</span>
+                  <span className="current-price">
+                    {product.sizes && product.sizes.length > 0 
+                      ? `From Ksh. ${Math.min(...product.sizes.map(s => s.price)).toLocaleString()}`
+                      : `Ksh. ${product.price.toLocaleString()}`
+                    }
+                  </span>
                 </div>
               </div>
             </div>

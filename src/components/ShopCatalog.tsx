@@ -8,22 +8,65 @@ interface ShopCatalogProps {
   onNavigate: (page: string) => void;
   wishlistItems: Product[];
   onToggleWishlist: (product: Product) => void;
+  initialFilter?: string;
 }
 
-const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavigate, wishlistItems, onToggleWishlist }) => {
+const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavigate, wishlistItems, onToggleWishlist, initialFilter }) => {
   const [selectedCategory, setSelectedCategory] = useState("All Products");
   const [priceRange, setPriceRange] = useState(50000);
   const [searchTerm, setSearchTerm] = useState(""); // New state for search term
   const [sortBy, setSortBy] = useState("Default Sorting");
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
+
+  useEffect(() => {
+    if (initialFilter) {
+      if (initialFilter === 'best-sellers') {
+        setSortBy("Rating: High to Low");
+      } else if (initialFilter === 'new-arrivals') {
+        setSelectedTag("New");
+      } else if (initialFilter === 'men') {
+        // Handled in main useEffect
+      } else if (initialFilter === 'women') {
+        // Handled in main useEffect
+      } else if (initialFilter === 'luxury') {
+        setSelectedTag("Luxury");
+      }
+    }
+  }, [initialFilter]);
 
   useEffect(() => {
     let result = [...products];
     
     if (selectedCategory !== "All Products") {
       result = result.filter(p => p.category === selectedCategory);
+    }
+
+    if (initialFilter) {
+      if (initialFilter === 'new-arrivals') {
+        result = result.filter(p => p.isNew);
+      } else if (initialFilter === 'men') {
+        result = result.filter(p => p.scentType === 'Masculine');
+      } else if (initialFilter === 'women') {
+        result = result.filter(p => p.scentType === 'Feminine');
+      } else if (initialFilter === 'luxury') {
+        result = result.filter(p => p.price > 20000);
+      }
+    }
+
+    if (selectedTag) {
+      if (selectedTag === "New") {
+        result = result.filter(p => p.isNew);
+      } else if (selectedTag === "Sale") {
+        result = result.filter(p => p.onSale);
+      } else if (selectedTag === "Luxury") {
+        result = result.filter(p => p.price > 20000);
+      } else if (selectedTag === "Trending") {
+        result = result.filter(p => p.rating >= 4);
+      }
+      // "Perfume" tag essentially shows all or could be used as a reset
     }
     
     result = result.filter(p => p.price <= priceRange);
@@ -47,7 +90,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
     
     setFilteredProducts(result);
     setCurrentPage(1); // Reset to first page on filter change
-  }, [selectedCategory, priceRange, searchTerm, sortBy]); // Add sortBy to dependency array
+  }, [selectedCategory, priceRange, searchTerm, sortBy, initialFilter, products, selectedTag]); // Add sortBy to dependency array
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -79,7 +122,10 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
                 <li 
                   key={category} 
                   className={selectedCategory === category ? 'active' : ''}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    if (initialFilter) onNavigate('shop');
+                  }}
                 >
                   {category}
                   <span className="count">
@@ -114,11 +160,24 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
           <div className="filter-section">
             <h3 className="filter-title">Popular Tags</h3>
             <div className="tags-container">
-              <span className="tag">Perfume</span>
-              <span className="tag">New</span>
-              <span className="tag">Trending</span>
-              <span className="tag">Sale</span>
-              <span className="tag">Luxury</span>
+              {["Perfume", "New", "Trending", "Sale", "Luxury"].map(tag => (
+                <span 
+                  key={tag} 
+                  className={`tag ${selectedTag === tag ? 'active' : ''}`}
+                  onClick={() => {
+                    if (tag === "Perfume") {
+                      setSelectedTag(null);
+                      setSelectedCategory("All Products");
+                      onNavigate('shop');
+                    } else {
+                      setSelectedTag(tag === selectedTag ? null : tag);
+                    }
+                  }}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
 
@@ -203,7 +262,12 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
                   <div className="product-footer">
                     <div className="product-price">
                       {product.oldPrice && <span className="old-price">Ksh. {product.oldPrice.toLocaleString()}</span>}
-                      <span className="current-price">Ksh. {product.price.toLocaleString()}</span>
+                      <span className="current-price">
+                        {product.sizes && product.sizes.length > 0 
+                          ? `From Ksh. ${Math.min(...product.sizes.map(s => s.price)).toLocaleString()}`
+                          : `Ksh. ${product.price.toLocaleString()}`
+                        }
+                      </span>
                     </div>
                     <button className="add-to-cart-btn" onClick={(e) => { e.stopPropagation(); onAddToCart(product); }}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -221,7 +285,7 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
           {filteredProducts.length === 0 && (
             <div className="no-results">
               <p>No products found matching your criteria.</p>
-              <button className="btn-primary" onClick={() => { setSelectedCategory("All Products"); setPriceRange(50000); setSearchTerm(""); }}>
+              <button className="btn-primary" onClick={() => { setSelectedCategory("All Products"); setPriceRange(50000); setSearchTerm(""); setSelectedTag(null); onNavigate('shop'); }}>
                 Clear Filters
               </button>
             </div>

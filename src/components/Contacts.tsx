@@ -35,23 +35,22 @@ const Contacts: React.FC<ContactsProps> = ({ onNavigate }) => {
                   <div className="contact-icon">📍</div>
                   <div className="contact-text">
                     <h4>Location</h4>
-                    <p>123 Fragrance Avenue, Nairobi, Kenya</p>
+                    <p>Nairobi, Kenya</p>
                   </div>
                 </div>
                 <div className="contact-item">
                   <div className="contact-icon">📞</div>
                   <div className="contact-text">
                     <h4>Phone</h4>
-                    <p>+254 712 345 678</p>
-                    <p>+254 798 765 432</p>
+                    <p>+254 11 8916154</p>
                   </div>
                 </div>
                 <div className="contact-item">
                   <div className="contact-icon">✉️</div>
                   <div className="contact-text">
                     <h4>Email</h4>
-                    <p>hello@shizperfumes.com</p>
-                    <p>support@shizperfumes.com</p>
+                    <p>hello@shizperfumes.co.ke</p>
+                    <p>support@shizperfumes.co.ke</p>
                   </div>
                 </div>
               </div>

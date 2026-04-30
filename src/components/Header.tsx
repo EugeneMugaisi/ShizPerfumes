@@ -73,8 +73,9 @@ const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, onHomeNavigate, 
                 </a>
                 <ul className={`dropdown-menu ${isShopDropdownOpen ? 'show-mobile' : ''}`}>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('shop'); }}>SHOP CATALOG</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('men'); }}>MEN'S FRAGRANCES</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('women'); }}>WOMEN'S FRAGRANCES</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('finder'); }}>FRAGRANCE FINDER</a></li>
-                  <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('giftsets'); }}>GIFT SETS</a></li>
                 </ul>
               </li>
               <li className={currentPage === 'contacts' ? 'active' : ''}>

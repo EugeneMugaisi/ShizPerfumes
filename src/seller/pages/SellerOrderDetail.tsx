@@ -1,9 +1,12 @@
 // src/seller/pages/SellerOrderDetail.tsx
 import { useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, increment, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import { sendStatusUpdateEmail } from "../services/emailService";
 
 interface OrderItem {
+  id: number;
+  firebaseId?: string;
   name: string;
   price: number;
   quantity: number;
@@ -61,12 +64,46 @@ const SellerOrderDetail = ({
     setUpdating(true);
     setSuccessMessage("");
     try {
+      // If moving to "shipped", decrement stock
+      if (newStatus === "shipped" && currentStatus !== "shipped") {
+        for (const item of order.items) {
+          let productRef = null;
+          
+          if (item.firebaseId) {
+            productRef = doc(db, "products", item.firebaseId);
+          } else if (item.id) {
+            // Fallback: Find by numeric ID
+            const q = query(collection(db, "products"), where("id", "==", item.id));
+            const snapshot = await getDocs(q);
+            if (!snapshot.empty) {
+              productRef = doc(db, "products", snapshot.docs[0].id);
+            }
+          }
+
+          if (productRef) {
+            try {
+              const productSnap = await getDoc(productRef);
+              if (productSnap.exists()) {
+                await updateDoc(productRef, {
+                  stock: increment(-item.quantity)
+                });
+              }
+            } catch (err) {
+              console.error(`Error updating stock for product ${item.name}:`, err);
+            }
+          }
+        }
+      }
+
       const orderRef = doc(db, "orders", order.id);
       await updateDoc(orderRef, {
         status: newStatus,
         ...(trackingNumber && { trackingNumber }),
         updatedAt: new Date(),
       });
+
+      await sendStatusUpdateEmail(order, newStatus);
+
       setCurrentStatus(newStatus);
       setSuccessMessage(`✅ Order status updated to "${newStatus}" successfully!`);
     } catch (error) {

@@ -3,10 +3,13 @@ import { Product } from '../data/products';
 import '../styles/Checkout.css';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase"; // adjust path if needed
+import { sendOrderConfirmationEmail } from "../seller/services/emailService";
 
 interface CartItem {
   product: Product;
   quantity: number;
+  selectedSize?: string;
+  selectedPrice?: number;
 }
 
 interface CheckoutProps {
@@ -19,7 +22,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
   const [paymentMethod, setPaymentMethod] = useState('bank');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + ((item.selectedPrice || item.product.price) * item.quantity), 0);
   const shipping = subtotal > 0 ? 500 : 0;
   const total = subtotal + shipping;
 
@@ -32,18 +35,20 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
     
     const orderData = {
       customer: {
-        firstName: formData.get('firstName'),
-        lastName: formData.get('lastName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        address: formData.get('address'),
-        city: formData.get('city'),
-        country: formData.get('country'),
-      },
+          firstName: formData.get('firstName') || '',
+          lastName: formData.get('lastName') || '',
+          email: formData.get('email') || '',
+          phone: formData.get('phone') || '',
+          address: formData.get('address') || '',
+          city: formData.get('city') || '',
+          country: formData.get('country') || '',
+        },
       items: cartItems.map(item => ({
         id: item.product.id,
+        firebaseId: item.product.firebaseId || null,
         name: item.product.name,
-        price: item.product.price,
+        price: item.selectedPrice || item.product.price,
+        size: item.selectedSize || null,
         quantity: item.quantity
       })),
       subtotal,
@@ -55,9 +60,24 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
     };
 
     try {
-      await addDoc(collection(db, "orders"), orderData);
-      alert('Order placed successfully! Thank you for shopping with Shiz Perfumes.');
-      onClearCart();
+      const docRef = await addDoc(collection(db, "orders"), orderData);
+
+      // Send confirmation email to customer
+      await sendOrderConfirmationEmail({
+        id: docRef.id,
+        customer: orderData.customer,
+        items: orderData.items,
+        total: orderData.total,
+      });
+
+      alert('Order placed successfully! Check your email for confirmation.');
+
+      try {
+        onClearCart();
+      } catch (cleanupError) {
+        console.warn("Cart cleanup issue:", cleanupError);
+      }
+
       onNavigate('home');
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -105,9 +125,6 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
                 <label htmlFor="country">Country / Region *</label>
                 <select id="country" name="country" required>
                   <option value="Kenya">Kenya</option>
-                  <option value="Uganda">Uganda</option>
-                  <option value="Tanzania">Tanzania</option>
-                  <option value="Rwanda">Rwanda</option>
                 </select>
               </div>
 
@@ -153,13 +170,13 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
                 </div>
                 
                 <div className="order-items-list">
-                  {cartItems.map((item) => (
-                    <div key={item.product.id} className="order-item">
+                  {cartItems.map((item, index) => (
+                    <div key={`${item.product.id}-${item.selectedSize || index}`} className="order-item">
                       <span className="order-item-name">
-                        {item.product.name} <strong className="product-qty">× {item.quantity}</strong>
+                        {item.product.name} {item.selectedSize && `(${item.selectedSize})`} <strong className="product-qty">× {item.quantity}</strong>
                       </span>
                       <span className="order-item-price">
-                        Ksh. {(item.product.price * item.quantity).toLocaleString()}
+                        Ksh. {((item.selectedPrice || item.product.price) * item.quantity).toLocaleString()}
                       </span>
                     </div>
                   ))}

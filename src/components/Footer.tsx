@@ -37,11 +37,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="footer-column footer-links">
             <h3>Shop</h3>
             <ul>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Best Sellers</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>New Arrivals</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Men's Fragrance</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Women's Fragrance</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shop'); }}>Luxury Series</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('best-sellers'); }}>Best Sellers</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('new-arrivals'); }}>New Arrivals</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('men'); }}>Men's Fragrance</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('women'); }}>Women's Fragrance</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('luxury'); }}>Luxury Series</a></li>
             </ul>
           </div>
 
@@ -51,9 +51,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul>
               <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>About Us</a></li>
               <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('contacts'); }}>Contact Us</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Privacy Policy</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Terms of Service</a></li>
-              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('home'); }}>Shipping & Returns</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('privacy'); }}>Privacy Policy</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('terms'); }}>Terms of Service</a></li>
+              <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('shipping'); }}>Shipping & Returns</a></li>
             </ul>
           </div>
         </div>
