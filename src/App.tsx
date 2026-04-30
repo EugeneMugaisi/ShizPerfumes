@@ -27,9 +27,11 @@ import ShippingReturns from './components/ShippingReturns';
 import LoadingScreen from './components/LoadingScreen';
 import { Product } from './data/products';
 import { useProducts } from './hooks/useProducts';
-import { SellerAuthProvider } from "./seller/SellerAuthContext";
+import { useSellerAuth } from "./seller/SellerAuthContext";
 import ProtectedRoute from "./seller/components/ProtectedRoute";
 import SellerDashboard from "./seller/pages/SellerDashboard";
+import { useCustomerAuth } from './context/CustomerAuthContext';
+import CustomerOrders from './pages/CustomerOrders';
 
 interface CartItem {
   product: Product;
@@ -40,6 +42,9 @@ interface CartItem {
 
 function App() {
   const { products, loading: productsLoading, seedDatabase } = useProducts();
+  const { currentUser, customerProfile, loading: customerLoading } = useCustomerAuth();
+  const { loading: sellerLoading } = useSellerAuth();
+
   const [currentPage, setCurrentPage] = useState('home');
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const savedCart = localStorage.getItem('shiz_cart');
@@ -51,6 +56,12 @@ function App() {
   });
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
+  const [forceHideLoading, setForceHideLoading] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setForceHideLoading(true), 6000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Save to localStorage whenever cart changes
@@ -82,10 +93,10 @@ function App() {
       setCurrentPage(pageParam);
     }
 
-    // Hide loading screen after 3 seconds minimum
+    // Hide loading screen after 500ms minimum
     const timer = setTimeout(() => {
       setIsAppReady(true);
-    }, 3000);
+    }, 500);
 
     return () => {
       window.removeEventListener('storage', handleStorageChange);
@@ -93,7 +104,7 @@ function App() {
     };
   }, []);
 
-  const isLoading = productsLoading || !isAppReady;
+  const isLoading = !forceHideLoading && (productsLoading || !isAppReady || customerLoading || sellerLoading);
 
   useEffect(() => {
     // Seed initial data if Firestore is empty
@@ -171,6 +182,9 @@ function App() {
   };
 
   const renderContent = () => {
+      if (currentPage === 'orders') {
+      return <CustomerOrders onNavigate={navigateTo} />;
+    }
     if (currentPage === 'home') {
       return (
         <>
@@ -274,27 +288,27 @@ function App() {
   };
 
   return (
-    <SellerAuthProvider>
-      <div className="App">
-        {isLoading && <LoadingScreen />}
-        <Header 
-          cartCount={cartCount} 
-          onNavigate={navigateTo} 
-          onHomeNavigate={handleHomeClick}
-          currentPage={currentPage}
-          onSearchOpen={() => setIsSearchOpen(true)}
-        />
-        <main>
-          {renderContent()}
-        </main>
-        <Footer onNavigate={navigateTo} />
-        <SearchOverlay 
-          isOpen={isSearchOpen} 
-          onClose={() => setIsSearchOpen(false)} 
-          onNavigate={navigateTo}
-        />
-      </div>
-    </SellerAuthProvider>
+    <div className="App">
+      {isLoading && <LoadingScreen />}
+      <Header
+        cartCount={cartCount}
+        onNavigate={navigateTo}
+        onHomeNavigate={handleHomeClick}
+        currentPage={currentPage}
+        onSearchOpen={() => setIsSearchOpen(true)}
+        currentUser={currentUser}           // 👈 add this
+        customerName={customerProfile?.name}
+      />
+      <main>
+        {renderContent()}
+      </main>
+      <Footer onNavigate={navigateTo} />
+      <SearchOverlay
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onNavigate={navigateTo}
+      />
+    </div>
   );
 }
 

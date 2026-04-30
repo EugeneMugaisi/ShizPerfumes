@@ -2,15 +2,27 @@ import React from 'react';
 import '../styles/Header.css';
 import logo from '../assets/Logo/ShizPerfumesLogo.png';
 
+import { User } from 'firebase/auth';
+
 interface HeaderProps {
   cartCount: number;
   onNavigate: (page: string) => void;
   onHomeNavigate: () => void;
   currentPage: string;
   onSearchOpen: () => void;
+  currentUser?: User | null;
+  customerName?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ cartCount, onNavigate, onHomeNavigate, currentPage, onSearchOpen }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  cartCount, 
+  onNavigate, 
+  onHomeNavigate, 
+  currentPage, 
+  onSearchOpen,
+  currentUser,
+  customerName 
+}) => {
   const [isShopDropdownOpen, setIsShopDropdownOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 

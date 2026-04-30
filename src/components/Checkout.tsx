@@ -4,6 +4,7 @@ import '../styles/Checkout.css';
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase"; // adjust path if needed
 import { sendOrderConfirmationEmail } from "../seller/services/emailService";
+import { useCustomerAuth } from '../context/CustomerAuthContext';
 
 interface CartItem {
   product: Product;
@@ -19,6 +20,7 @@ interface CheckoutProps {
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart }: CheckoutProps) => {
+  const { currentUser } = useCustomerAuth();
   const [paymentMethod, setPaymentMethod] = useState('bank');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -35,13 +37,14 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
     
     const orderData = {
       customer: {
-          firstName: formData.get('firstName') || '',
-          lastName: formData.get('lastName') || '',
-          email: formData.get('email') || '',
-          phone: formData.get('phone') || '',
-          address: formData.get('address') || '',
-          city: formData.get('city') || '',
-          country: formData.get('country') || '',
+          uid: currentUser?.uid || null,
+          firstName: formData.get('firstName') as string || '',
+          lastName: formData.get('lastName') as string || '',
+          email: formData.get('email') as string || '',
+          phone: formData.get('phone') as string || '',
+          address: formData.get('address') as string || '',
+          city: formData.get('city') as string || '',
+          country: formData.get('country') as string || '',
         },
       items: cartItems.map(item => ({
         id: item.product.id,

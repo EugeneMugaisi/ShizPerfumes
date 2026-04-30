@@ -18,17 +18,28 @@ export const SellerAuthProvider = ({ children }: { children: React.ReactNode }) 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const safetyTimeout = setTimeout(() => {
+      if (loading) {
+        console.warn("Seller auth loading timed out");
+        setLoading(false);
+      }
+    }, 5000);
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
+      clearTimeout(safetyTimeout);
       setCurrentUser(user);
       setLoading(false);
     });
 
-    return unsubscribe; // cleanup on unmount
+    return () => {
+      unsubscribe();
+      clearTimeout(safetyTimeout);
+    }; // cleanup on unmount
   }, []);
 
   return (
     <SellerAuthContext.Provider value={{ currentUser, loading }}>
-      {!loading && children}
+      {children}
     </SellerAuthContext.Provider>
   );
 };

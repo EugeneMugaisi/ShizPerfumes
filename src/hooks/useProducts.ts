@@ -12,10 +12,19 @@ export const useProducts = () => {
     // Reference to the 'products' collection
     const productsCollection = collection(db, 'products');
     
+    // Safety timeout: if loading takes more than 5 seconds, stop loading
+    const safetyTimeout = setTimeout(() => {
+      if (loading) {
+        console.warn("Product loading timed out, falling back to empty/static data");
+        setLoading(false);
+      }
+    }, 5000);
+
     // Subscribe to real-time updates
     const unsubscribe = onSnapshot(
       productsCollection,
       (snapshot) => {
+        clearTimeout(safetyTimeout);
         const productData = snapshot.docs.map((doc) => ({
           ...doc.data(),
           // Use Firestore doc ID if needed, or keep the numeric id from data
@@ -26,6 +35,7 @@ export const useProducts = () => {
         setLoading(false);
       },
       (err) => {
+        clearTimeout(safetyTimeout);
         console.error("Error fetching products:", err);
         setError(err.message);
         setLoading(false);
@@ -33,7 +43,10 @@ export const useProducts = () => {
     );
 
     // Cleanup subscription
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      clearTimeout(safetyTimeout);
+    };
   }, []);
 
   // Utility to seed Firestore with initial data from products.ts
