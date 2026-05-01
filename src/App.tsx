@@ -32,6 +32,7 @@ import ProtectedRoute from "./seller/components/ProtectedRoute";
 import SellerDashboard from "./seller/pages/SellerDashboard";
 import { useCustomerAuth } from './context/CustomerAuthContext';
 import CustomerOrders from './pages/CustomerOrders';
+import { useWishlist } from './hooks/useWishlist';
 
 interface CartItem {
   product: Product;
@@ -50,13 +51,20 @@ function App() {
     const savedCart = localStorage.getItem('shiz_cart');
     return savedCart ? JSON.parse(savedCart) : [];
   });
-  const [wishlistItems, setWishlistItems] = useState<any[]>(() => {
-    const savedWishlist = localStorage.getItem('shiz_wishlist');
-    return savedWishlist ? JSON.parse(savedWishlist) : [];
-  });
+  const { wishlistItems, toggleWishlist: toggleWishlistHook, isInWishlist } = useWishlist();
+
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isAppReady, setIsAppReady] = useState(false);
   const [forceHideLoading, setForceHideLoading] = useState(false);
+
+  const handleStorageChange = (e: StorageEvent) => {
+    if (e.key === 'shiz_cart') {
+      const savedCart = localStorage.getItem('shiz_cart');
+      if (savedCart) {
+        setCartItems(JSON.parse(savedCart));
+      }
+    }
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => setForceHideLoading(true), 6000);
@@ -69,21 +77,6 @@ function App() {
   }, [cartItems]);
 
   useEffect(() => {
-    // Save to localStorage whenever wishlist changes
-    localStorage.setItem('shiz_wishlist', JSON.stringify(wishlistItems));
-  }, [wishlistItems]);
-
-  useEffect(() => {
-    // Sync across tabs
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'shiz_cart' && e.newValue) {
-        setCartItems(JSON.parse(e.newValue));
-      }
-      if (e.key === 'shiz_wishlist' && e.newValue) {
-        setWishlistItems(JSON.parse(e.newValue));
-      }
-    };
-
     window.addEventListener('storage', handleStorageChange);
     
     // Check for page in URL query params
@@ -139,17 +132,12 @@ function App() {
   };
 
   const removeFromWishlist = (id: number) => {
-    setWishlistItems(prev => prev.filter(item => item.id !== id));
+    const product = wishlistItems.find(item => item.id === id);
+    if (product) toggleWishlistHook(product);
   };
 
   const toggleWishlist = (product: Product) => {
-    setWishlistItems(prev => {
-      const exists = prev.find(item => item.id === product.id);
-      if (exists) {
-        return prev.filter(item => item.id !== product.id);
-      }
-      return [...prev, product];
-    });
+    toggleWishlistHook(product);
   };
 
   const updateQuantity = (id: number, delta: number, selectedSize?: string) => {

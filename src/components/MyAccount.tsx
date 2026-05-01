@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';  // 👈 adjust path if needed
 import { useCustomerAuth } from '../context/CustomerAuthContext';
@@ -83,7 +83,6 @@ const MyAccount: React.FC<MyAccountProps> = ({ onNavigate }) => {
 
               <button
                 onClick={async () => {
-                  const { signOut } = await import('firebase/auth');
                   await signOut(auth);
                   onNavigate('home');
                 }}

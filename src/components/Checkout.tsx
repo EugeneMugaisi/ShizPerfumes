@@ -21,7 +21,7 @@ interface CheckoutProps {
 
 const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart }: CheckoutProps) => {
   const { currentUser } = useCustomerAuth();
-  const [paymentMethod, setPaymentMethod] = useState('bank');
+  const [paymentMethod, setPaymentMethod] = useState('mpesa');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const subtotal = cartItems.reduce((sum, item) => sum + ((item.selectedPrice || item.product.price) * item.quantity), 0);
@@ -152,10 +152,12 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
                 <input type="email" id="email" name="email" required />
               </div>
 
-              <div className="form-group checkbox-group">
-                <input type="checkbox" id="createAccount" />
-                <label htmlFor="createAccount">Create an account?</label>
-              </div>
+              {!currentUser && (
+                <div className="form-group checkbox-group">
+                  <input type="checkbox" id="createAccount" />
+                  <label htmlFor="createAccount">Create an account?</label>
+                </div>
+              )}
 
               <h2 className="checkout-section-title mt-40">Additional Information</h2>
               <div className="form-group">
@@ -201,23 +203,6 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
                 </div>
 
                 <div className="payment-methods">
-                  <div className="payment-option">
-                    <input 
-                      type="radio" 
-                      id="bank" 
-                      name="payment" 
-                      value="bank" 
-                      checked={paymentMethod === 'bank'}
-                      onChange={() => setPaymentMethod('bank')}
-                    />
-                    <label htmlFor="bank">Direct Bank Transfer</label>
-                    {paymentMethod === 'bank' && (
-                      <div className="payment-description">
-                        Make your payment directly into our bank account. Please use your Order ID as the payment reference.
-                      </div>
-                    )}
-                  </div>
-
                   <div className="payment-option">
                     <input 
                       type="radio" 
