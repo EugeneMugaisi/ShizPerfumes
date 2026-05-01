@@ -59,8 +59,8 @@ const SellerOrders = ({ onSelectOrder }: { onSelectOrder: (order: Order) => void
     const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const orderList = snapshot.docs.map((doc) => ({
-        id: doc.id,
         ...doc.data(),
+        id: doc.id,
       })) as Order[];
       setOrders(orderList);
       setLoading(false);

@@ -71,7 +71,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ title, subtitle, products, on
         </div>
 
         <div className="view-all-container">
-          <button className="btn-primary" onClick={() => window.open(window.location.origin + window.location.pathname + '?page=shop', '_blank', 'noopener,noreferrer')}>
+          <button className="btn-primary" onClick={() => onNavigate('shop')}>
             VIEW ALL PRODUCTS
           </button>
         </div>

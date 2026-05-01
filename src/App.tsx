@@ -157,9 +157,23 @@ function App() {
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const navigateTo = (page: string) => {
-    setCurrentPage(page);
-    const url = window.location.origin + window.location.pathname + (page === 'home' ? '' : '?page=' + page);
-    window.history.pushState({}, '', url);
+    // Handle cases where 'page' might be a full path or have params
+    const [pageName, ...params] = page.split('?');
+    setCurrentPage(pageName);
+    
+    const url = new URL(window.location.origin + window.location.pathname);
+    if (pageName !== 'home') {
+      url.searchParams.set('page', pageName);
+      // Re-apply any other params
+      if (params.length > 0) {
+        const otherParams = new URLSearchParams(params.join('?'));
+        otherParams.forEach((value, key) => {
+          url.searchParams.set(key, value);
+        });
+      }
+    }
+    
+    window.history.pushState({}, '', url.toString());
     window.scrollTo(0, 0);
   };
 
@@ -202,7 +216,7 @@ function App() {
           <Testimonials />
         </>
       );
-    } else if (currentPage === 'shop' || currentPage === 'best-sellers' || currentPage === 'new-arrivals' || currentPage === 'men' || currentPage === 'women' || currentPage === 'luxury') {
+    } else if (currentPage === 'shop' || currentPage === 'best-sellers' || currentPage === 'new-arrivals' || currentPage === 'men' || currentPage === 'women' || currentPage === 'unisex' || currentPage === 'luxury') {
       return (
         <ShopCatalog
           products={products}

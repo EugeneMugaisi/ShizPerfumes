@@ -6,6 +6,16 @@ import { db } from "../firebase"; // adjust path if needed
 import { sendOrderConfirmationEmail } from "../seller/services/emailService";
 import { useCustomerAuth } from '../context/CustomerAuthContext';
 
+const kenyanTowns = [
+  "Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Ruiru", "Kikuyu", "Thika", 
+  "Naivasha", "Malindi", "Kitale", "Garissa", "Kakamega", "Machakos", "Meru", 
+  "Nyeri", "Kiambu", "Kericho", "Voi", "Narok", "Lodwar", "Wajir", "Mandera", 
+  "Marsabit", "Isiolo", "Homa Bay", "Migori", "Busia", "Bungoma", "Siaya", 
+  "Kapsabet", "Iten", "Kabarnet", "Kapenguria", "Ol Kalou", "Kerugoya", 
+  "Embu", "Chuka", "Murang'a", "Kitui", "Kajiado", "Athi River", "Namanga", 
+  "Mtwapa", "Kilifi", "Watamu", "Diani", "Lamu", "Hola", "Wote"
+].sort();
+
 interface CartItem {
   product: Product;
   quantity: number;
@@ -21,8 +31,8 @@ interface CheckoutProps {
 
 const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart }: CheckoutProps) => {
   const { currentUser } = useCustomerAuth();
-  const [paymentMethod, setPaymentMethod] = useState('mpesa');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [createAccount, setCreateAccount] = useState(false);
   
   const subtotal = cartItems.reduce((sum, item) => sum + ((item.selectedPrice || item.product.price) * item.quantity), 0);
   const shipping = subtotal > 0 ? 500 : 0;
@@ -31,6 +41,12 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
+
+    if (!currentUser && createAccount) {
+        // Redirect to account page with a redirect back to checkout param
+        onNavigate('account?redirect=checkout');
+        return;
+    }
 
     setIsSubmitting(true);
     const formData = new FormData(e.target as HTMLFormElement);
@@ -57,7 +73,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
       subtotal,
       shipping,
       total,
-      paymentMethod,
+      notes: formData.get('notes') as string || '',
       status: 'pending',
       createdAt: serverTimestamp(),
     };
@@ -139,7 +155,12 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
 
               <div className="form-group">
                 <label htmlFor="city">Town / City *</label>
-                <input type="text" id="city" name="city" required />
+                <select id="city" name="city" required style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid #ddd' }}>
+                  <option value="">Select a town/city...</option>
+                  {kenyanTowns.map(town => (
+                    <option key={town} value={town}>{town}</option>
+                  ))}
+                </select>
               </div>
 
               <div className="form-group">
@@ -154,7 +175,12 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
 
               {!currentUser && (
                 <div className="form-group checkbox-group">
-                  <input type="checkbox" id="createAccount" />
+                  <input 
+                    type="checkbox" 
+                    id="createAccount" 
+                    checked={createAccount}
+                    onChange={(e) => setCreateAccount(e.target.checked)}
+                  />
                   <label htmlFor="createAccount">Create an account?</label>
                 </div>
               )}
@@ -193,48 +219,12 @@ const Checkout: React.FC<CheckoutProps> = ({ cartItems, onNavigate, onClearCart 
                     <span>Ksh. {subtotal.toLocaleString()}</span>
                   </div>
                   <div className="summary-line">
-                    <span>Shipping</span>
+                    <span>Delivery Fee</span>
                     <span>Ksh. {shipping.toLocaleString()}</span>
                   </div>
                   <div className="summary-line total-line">
                     <span>Total</span>
                     <span className="total-amount">Ksh. {total.toLocaleString()}</span>
-                  </div>
-                </div>
-
-                <div className="payment-methods">
-                  <div className="payment-option">
-                    <input 
-                      type="radio" 
-                      id="cod" 
-                      name="payment" 
-                      value="cod"
-                      checked={paymentMethod === 'cod'}
-                      onChange={() => setPaymentMethod('cod')}
-                    />
-                    <label htmlFor="cod">Cash on Delivery</label>
-                    {paymentMethod === 'cod' && (
-                      <div className="payment-description">
-                        Pay with cash upon delivery of your products.
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="payment-option">
-                    <input 
-                      type="radio" 
-                      id="mpesa" 
-                      name="payment" 
-                      value="mpesa"
-                      checked={paymentMethod === 'mpesa'}
-                      onChange={() => setPaymentMethod('mpesa')}
-                    />
-                    <label htmlFor="mpesa">Lipa na M-Pesa</label>
-                    {paymentMethod === 'mpesa' && (
-                      <div className="payment-description">
-                        Pay using M-Pesa. A prompt will be sent to your phone.
-                      </div>
-                    )}
                   </div>
                 </div>
 

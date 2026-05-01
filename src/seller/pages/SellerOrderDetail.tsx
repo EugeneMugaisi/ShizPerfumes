@@ -26,6 +26,7 @@ interface Order {
   items: OrderItem[];
   total: number;
   status: string;
+  notes?: string;
   createdAt: any;
 }
 
@@ -190,6 +191,18 @@ const SellerOrderDetail = ({
           <InfoRow label="Country" value={order.customer?.country} />
         </div>
       </div>
+
+      {/* Order Notes */}
+      {order.notes && (
+        <div style={{ backgroundColor: "#fff9c4", borderRadius: "10px", padding: "1.5rem", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", marginBottom: "1.5rem", border: "1px solid #fbc02d" }}>
+          <h4 style={{ margin: "0 0 0.5rem", color: "#444", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <span>📝</span> Order Notes
+          </h4>
+          <p style={{ margin: 0, fontSize: "0.9rem", color: "#333", whiteSpace: "pre-wrap", lineHeight: "1.5" }}>
+            {order.notes}
+          </p>
+        </div>
+      )}
 
       {/* Order Items */}
       <div style={{ backgroundColor: "white", borderRadius: "10px", padding: "1.5rem", boxShadow: "0 1px 4px rgba(0,0,0,0.06)", marginBottom: "1.5rem" }}>

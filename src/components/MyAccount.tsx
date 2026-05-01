@@ -111,10 +111,13 @@ const MyAccount: React.FC<MyAccountProps> = ({ onNavigate }) => {
     const password = (form.querySelector('#password') as HTMLInputElement).value;
 
     try {
+      const params = new URLSearchParams(window.location.search);
+      const redirectPage = params.get('redirect') || 'home';
+
       if (isLogin) {
         // Log in existing customer
         await signInWithEmailAndPassword(auth, email, password);
-        onNavigate('home');
+        onNavigate(redirectPage);
 
       } else {
         // Register new customer
@@ -132,7 +135,7 @@ const MyAccount: React.FC<MyAccountProps> = ({ onNavigate }) => {
         });
 
         alert('Account created successfully! Welcome to Shiz Perfumes 🎉');
-        onNavigate('home');
+        onNavigate(redirectPage);
       }
 
     } catch (err: any) {

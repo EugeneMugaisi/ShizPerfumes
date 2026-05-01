@@ -78,7 +78,7 @@ const Header: React.FC<HeaderProps> = ({
                 <a href="#" onClick={(e) => { e.preventDefault(); handleHomeNavigate(); }}>HOME</a>
               </li>
               <li 
-                className={`dropdown-container ${currentPage === 'shop' || currentPage === 'finder' || currentPage === 'giftsets' ? 'active' : ''}`}
+                className={`dropdown-container ${currentPage === 'shop' || currentPage === 'men' || currentPage === 'women' || currentPage === 'unisex' || currentPage === 'finder' || currentPage === 'giftsets' ? 'active' : ''}`}
               >
                 <a href="#" onClick={handleShopClick}>
                   SHOP <span className="arrow">▼</span>
@@ -87,6 +87,7 @@ const Header: React.FC<HeaderProps> = ({
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('shop'); }}>SHOP CATALOG</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('men'); }}>MEN'S FRAGRANCES</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('women'); }}>WOMEN'S FRAGRANCES</a></li>
+                  <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('unisex'); }}>UNISEX FRAGRANCES</a></li>
                   <li><a href="#" onClick={(e) => { e.preventDefault(); handleNavigate('finder'); }}>FRAGRANCE FINDER</a></li>
                 </ul>
               </li>

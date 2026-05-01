@@ -1,5 +1,5 @@
 // src/seller/components/ImageUploader.tsx
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useImageUpload } from "../hooks/useImageUpload";
 
 interface ImageUploaderProps {
@@ -11,6 +11,11 @@ const ImageUploader = ({ currentImage, onUploadComplete }: ImageUploaderProps) =
   const { uploadImage, uploading, uploadProgress, uploadError } = useImageUpload();
   const [preview, setPreview] = useState<string>(currentImage || "");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync preview with currentImage prop when it changes (e.g. switching between products being edited)
+  useEffect(() => {
+    setPreview(currentImage || "");
+  }, [currentImage]);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

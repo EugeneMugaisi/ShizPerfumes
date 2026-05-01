@@ -30,6 +30,7 @@ const CustomerOrders = ({ onNavigate }: { onNavigate: (page: string) => void }) 
   const { currentUser } = useCustomerAuth();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!currentUser) return;
@@ -43,12 +44,18 @@ const CustomerOrders = ({ onNavigate }: { onNavigate: (page: string) => void }) 
         );
         const snapshot = await getDocs(q);
         const orderList = snapshot.docs.map((doc) => ({
-          id: doc.id,
           ...doc.data(),
+          id: doc.id,
         })) as Order[];
         setOrders(orderList);
-      } catch (error) {
+        setError(null);
+      } catch (error: any) {
         console.error("Error fetching orders:", error);
+        if (error.code === 'failed-precondition') {
+          setError("Fetching orders failed due to missing Firestore index. Please check the console for the index link.");
+        } else {
+          setError("Failed to load orders. Please try again later.");
+        }
       } finally {
         setLoading(false);
       }
@@ -91,6 +98,16 @@ const CustomerOrders = ({ onNavigate }: { onNavigate: (page: string) => void }) 
       <p style={{ color: "#888", marginBottom: "2rem" }}>
         {orders.length} order{orders.length !== 1 ? "s" : ""} found
       </p>
+
+      {error && (
+        <div style={{
+          padding: "1rem", backgroundColor: "#fef2f2", color: "#ef4444",
+          borderRadius: "8px", marginBottom: "1.5rem", fontSize: "0.9rem",
+          border: "1px solid #fee2e2"
+        }}>
+          {error}
+        </div>
+      )}
 
       {orders.length === 0 ? (
         <div style={{ textAlign: "center", padding: "3rem", backgroundColor: "white", borderRadius: "12px" }}>

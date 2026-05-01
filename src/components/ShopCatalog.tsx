@@ -51,6 +51,8 @@ const ShopCatalog: React.FC<ShopCatalogProps> = ({ products, onAddToCart, onNavi
         result = result.filter(p => p.scentType === 'Masculine');
       } else if (initialFilter === 'women') {
         result = result.filter(p => p.scentType === 'Feminine');
+      } else if (initialFilter === 'unisex') {
+        result = result.filter(p => p.scentType === 'Unisex');
       } else if (initialFilter === 'luxury') {
         result = result.filter(p => p.price > 20000);
       }

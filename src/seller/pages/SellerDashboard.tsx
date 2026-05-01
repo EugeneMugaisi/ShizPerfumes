@@ -1,21 +1,19 @@
 // src/seller/pages/SellerDashboard.tsx
 import { useState } from "react";
-import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import SellerOrders from "./SellerOrders";
 import SellerOrderDetail from "./SellerOrderDetail";
 import SellerInventory from "./SellerInventory";
 import SellerDashboardHome from "./SellerDashboardHome";
+import { useInactivityLogout } from "../hooks/useInactivityLogout";
+import InactivityWarning from "../components/InactivityWarning";
 
 type SellerView = "orders" | "inventory" | "dashboard";
 
 const SellerDashboard = () => {
   const [currentView, setCurrentView] = useState<SellerView>("dashboard");
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-  };
+  const { showWarning, secondsLeft, resetTimers, handleLogout } = useInactivityLogout();
 
   const navItems: { label: string; view: SellerView }[] = [
     { label: "Dashboard", view: "dashboard" },
@@ -25,7 +23,14 @@ const SellerDashboard = () => {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "#f7f7f7", display: "flex" }}>
-
+       {/* Inactivity Warning Modal */}
+        {showWarning && (
+          <InactivityWarning
+            secondsLeft={secondsLeft}
+            onStayLoggedIn={resetTimers}
+            onLogout={handleLogout}
+          />
+        )}
       {/* Sidebar */}
       <div style={{
         width: "220px", backgroundColor: "#1a1a1a", color: "white",

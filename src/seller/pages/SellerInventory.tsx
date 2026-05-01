@@ -39,24 +39,45 @@ const SellerInventory = () => {
   const [form, setForm] = useState(emptyForm);
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | number | null>(null);
   const [productImage, setProductImage] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch products from Firestore
   const fetchProducts = async () => {
     setLoading(true);
-    const snapshot = await getDocs(collection(db, "products"));
-    const list = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Product[];
-    setProducts(list);
-    setLoading(false);
+    try {
+      const snapshot = await getDocs(collection(db, "products"));
+      const list = snapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: String(doc.id),  // 👈 force string conversion
+        })) as Product[];
+      setProducts(list);
+    } catch (error: any) {
+      console.error("Error fetching products:", error);
+      setSuccessMessage(`❌ Error fetching products: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const handleSearch = () => {
+    setSearchQuery(searchTerm);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      product.name?.toLowerCase().includes(query) ||
+      product.category?.toLowerCase().includes(query) ||
+      product.description?.toLowerCase().includes(query)
+    );
+  });
 
   const handleOpenAdd = () => {
     setEditingProduct(null);
@@ -69,10 +90,10 @@ const SellerInventory = () => {
   const handleOpenEdit = (product: Product) => {
     setEditingProduct(product);
     setForm({
-      name: product.name,
-      price: String(product.price),
-      description: product.description,
-      stock: String(product.stock),
+      name: product.name || "",
+      price: String(product.price || 0),
+      description: product.description || "",
+      stock: String(product.stock || 0),
       category: product.category || "",
       image: product.image || "",
       scentType: product.scentType || "",
@@ -99,24 +120,31 @@ const SellerInventory = () => {
       return;
     }
 
+    const price = Number(form.price);
+    const stock = Number(form.stock);
+
+    if (isNaN(price) || isNaN(stock)) {
+      alert("Price and Stock must be valid numbers.");
+      return;
+    }
+
     setSaving(true);
     try {
       const productData = {
-          name: form.name.trim(),
-          price: Number(form.price),
-          description: form.description.trim(),
-          stock: Number(form.stock),
-          category: form.category.trim(),
+          name: (form.name || "").trim(),
+          price: price,
+          description: (form.description || "").trim(),
+          stock: stock,
+          category: (form.category || "").trim(),
           image: productImage,
-          scentType: form.scentType.trim(),
-          fragranceFamily: form.fragranceFamily.trim(),
-          onSale: false,
-          rating: 5,
+          scentType: (form.scentType || "").trim(),
+          fragranceFamily: (form.fragranceFamily || "").trim(),
+          onSale: editingProduct ? (editingProduct.onSale ?? false) : false,
+          rating: editingProduct ? (editingProduct.rating ?? 5) : 5,
         };
 
       if (editingProduct) {
-        // Update existing product
-        await updateDoc(doc(db, "products", editingProduct.id), productData);
+      await updateDoc(doc(db, "products", String(editingProduct.id)), productData);  // 👈 String()
         setSuccessMessage(`✅ "${form.name}" updated successfully!`);
       } else {
         // Add new product
@@ -130,25 +158,26 @@ const SellerInventory = () => {
       await fetchProducts(); // refresh the list
       handleCloseForm();
 
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving product:", error);
-      setSuccessMessage("❌ Failed to save product. Please try again.");
+      setSuccessMessage(`❌ Error: ${error.message || "Failed to save product."}`);
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async (product: Product) => {
-    try {
-      await deleteDoc(doc(db, "products", product.id));
-      setSuccessMessage(`✅ "${product.name}" removed from catalog.`);
-      setDeleteConfirmId(null);
-      await fetchProducts();
-    } catch (error) {
-      console.error("Error deleting product:", error);
-      setSuccessMessage("❌ Failed to delete product. Please try again.");
-    }
-  };
+  console.log("Deleting product with ID:", product.id, typeof product.id);
+  try {
+    await deleteDoc(doc(db, "products", String(product.id)));  // 👈 String()
+    setSuccessMessage(`✅ "${product.name}" removed from catalog.`);
+    setDeleteConfirmId(null);
+    await fetchProducts();
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    setSuccessMessage("❌ Failed to delete product. Please try again.");
+  }
+};
 
   if (loading) return <p style={{ padding: "2rem" }}>Loading inventory...</p>;
 
@@ -160,7 +189,10 @@ const SellerInventory = () => {
         <div>
           <h2 style={{ margin: 0 }}>Inventory</h2>
           <p style={{ color: "#888", margin: "0.25rem 0 0", fontSize: "0.88rem" }}>
-            {products.length} product{products.length !== 1 ? "s" : ""} in catalog
+            {searchQuery 
+              ? `${filteredProducts.length} result${filteredProducts.length !== 1 ? "s" : ""} for "${searchQuery}"`
+              : `${products.length} product${products.length !== 1 ? "s" : ""} in catalog`
+            }
           </p>
         </div>
         <button
@@ -173,6 +205,70 @@ const SellerInventory = () => {
         >
           + Add Product
         </button>
+      </div>
+
+      {/* Search Bar */}
+      <div style={{ 
+        margin: "1.25rem 0", 
+        display: "flex", 
+        gap: "0.5rem",
+        backgroundColor: "#f9fafb",
+        padding: "0.75rem",
+        borderRadius: "10px",
+        border: "1px solid #eee"
+      }}>
+        <div style={{ flex: 1, position: "relative", display: "flex", alignItems: "center" }}>
+          <span style={{ position: "absolute", left: "0.75rem", color: "#888", fontSize: "0.9rem" }}>🔍</span>
+          <input
+            type="text"
+            placeholder="Search products by name, category or description..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            style={{
+              width: "100%",
+              padding: "0.6rem 0.75rem 0.6rem 2.2rem",
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+              fontSize: "0.88rem",
+              outline: "none"
+            }}
+          />
+        </div>
+        <button
+          onClick={handleSearch}
+          style={{
+            padding: "0.6rem 1.25rem",
+            backgroundColor: "#ffffff",
+            color: "#374151",
+            border: "1px solid #d1d5db",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "0.88rem",
+            fontWeight: 500
+          }}
+        >
+          Search
+        </button>
+        {searchQuery && (
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setSearchQuery("");
+            }}
+            style={{
+              padding: "0.6rem 1rem",
+              backgroundColor: "transparent",
+              color: "#6b7280",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "0.88rem",
+              textDecoration: "underline"
+            }}
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       {/* Success Message */}
@@ -294,7 +390,7 @@ const SellerInventory = () => {
             </tr>
           </thead>
           <tbody>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <tr
                 key={product.id}
                 style={{ borderBottom: "1px solid #f5f5f5" }}
@@ -378,10 +474,22 @@ const SellerInventory = () => {
           </tbody>
         </table>
 
-        {products.length === 0 && (
-          <p style={{ textAlign: "center", padding: "3rem", color: "#888" }}>
-            No products yet. Click "Add Product" to get started.
-          </p>
+        {filteredProducts.length === 0 && (
+          <div style={{ textAlign: "center", padding: "3rem", color: "#888" }}>
+            {searchQuery ? (
+              <>
+                <p style={{ fontSize: "1.1rem", marginBottom: "0.5rem" }}>No results found for "{searchQuery}"</p>
+                <button 
+                  onClick={() => { setSearchTerm(""); setSearchQuery(""); }}
+                  style={{ color: "#1a1a1a", background: "none", border: "none", textDecoration: "underline", cursor: "pointer" }}
+                >
+                  Clear search and show all products
+                </button>
+              </>
+            ) : (
+              <p>No products yet. Click "Add Product" to get started.</p>
+            )}
+          </div>
         )}
       </div>
     </div>
