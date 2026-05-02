@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from 'firebase/auth';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';  // 👈 adjust path if needed
 import { useCustomerAuth } from '../context/CustomerAuthContext';
 import '../styles/MyAccount.css';
@@ -127,7 +127,7 @@ const MyAccount: React.FC<MyAccountProps> = ({ onNavigate }) => {
         const user = userCredential.user;
 
         // Save customer profile to Firestore
-        await setDoc(doc(db, 'customers', user.uid), {
+        await addDoc(collection(db, 'customers'), {
           uid: user.uid,
           name: name,
           email: email,

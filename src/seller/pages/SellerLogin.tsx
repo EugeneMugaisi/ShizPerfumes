@@ -1,7 +1,7 @@
 // src/seller/pages/SellerLogin.tsx
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
 
 const SellerLogin = () => {
   const [email, setEmail] = useState("");
@@ -11,21 +11,35 @@ const SellerLogin = () => {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  e.preventDefault();
+  setError("");
+  setLoading(true);
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      // Auth context will automatically detect the login
-      // and ProtectedRoute will render the portal
-    } catch (err) {
-      setError("Invalid email or password. Please try again.");
-      console.error(err);
-    } finally {
-      setLoading(false);
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // Immediately check if this user is in the sellers collection
+    const { doc, getDoc } = await import('firebase/firestore');
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+
+    if (!userDoc.exists() || userDoc.data().role !== "seller") {
+      // Not a seller — sign them out immediately
+      const { signOut } = await import('firebase/auth');
+      await signOut(auth);
+      setError("Access denied. This portal is for sellers only.");
+      return;
     }
-  };
+
+    // Valid seller — auth context will handle the rest
+
+  } catch (err) {
+    setError("Invalid email or password. Please try again.");
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div style={{

@@ -1,7 +1,7 @@
 // src/context/CustomerAuthContext.tsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
 interface CustomerProfile {
@@ -43,12 +43,20 @@ export const CustomerAuthProvider = ({ children }: { children: React.ReactNode }
 
       if (user) {
         // Fetch customer profile from Firestore
-        const profileDoc = await getDoc(doc(db, "customers", user.uid));
-        if (profileDoc.exists()) {
-          setCustomerProfile(profileDoc.data() as CustomerProfile);
+        const q = query(
+          collection(db, "customers"),
+          where("uid", "==", user.uid)
+        );
+        const snapshot = await getDocs(q);
+        if (!snapshot.empty) {
+          setCustomerProfile(snapshot.docs[0].data() as CustomerProfile);
+        } else {
+          setCustomerProfile({
+            uid: user.uid,
+            name: user.displayName || user.email?.split('@')[0] || 'Customer',
+            email: user.email || '',
+          });
         }
-      } else {
-        setCustomerProfile(null);
       }
 
       setLoading(false);

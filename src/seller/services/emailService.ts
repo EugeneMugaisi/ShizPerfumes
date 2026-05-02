@@ -36,6 +36,9 @@ const formatItems = (items: any[]): string => {
 // Send order confirmation email when customer places an order
 export const sendOrderConfirmationEmail = async (order: any): Promise<void> => {
   try {
+    const commitmentFee = Math.ceil(order.total * 0.5);  // 50% rounded up
+    const remainingBalance = order.total - commitmentFee;
+
     const templateParams = {
       customer_name: `${order.customer?.firstName} ${order.customer?.lastName}`,
       customer_email: order.customer?.email,
@@ -45,6 +48,8 @@ export const sendOrderConfirmationEmail = async (order: any): Promise<void> => {
       }),
       order_items: formatItems(order.items),
       order_total: order.total?.toLocaleString(),
+      commitment_fee: commitmentFee.toLocaleString(),      // 👈 new
+      remaining_balance: remainingBalance.toLocaleString(), // 👈 new
       delivery_address: order.customer?.address,
       delivery_city: order.customer?.city,
       delivery_country: order.customer?.country,
