@@ -1,7 +1,7 @@
 import emailjs from "@emailjs/browser";
 
 // These should ideally be in environment variables
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_zvlhm0q";
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_5uypl7w";
 const CONFIRMATION_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_ORDER_TEMPLATE_ID || "template_39g4jq2";
 const STATUS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_STATUS_TEMPLATE_ID || "template_c8hkemg";
 const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "LXAiVQ5SptciSfinK";
